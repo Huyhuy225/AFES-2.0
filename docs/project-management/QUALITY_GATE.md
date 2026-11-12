@@ -1,7 +1,7 @@
 # AFES 2.0 – Quality Gates, Automated Verification and Acceptance Standards
 
 > **Document Version**: 2.0.0
-> **Status**: Approved Project Management Baseline
+> **Status**: DRAFT — pending Technical Lead approval
 > **Target Base**: `develop` branch at commit [`bb5bba7059957c5d80a02128d77961ff66af970b`](https://github.com/Huyhuy225/AFES-2.0/commit/bb5bba7059957c5d80a02128d77961ff66af970b)
 > **Course**: Internet of Things (IoT) – Semester 261 (HCMUT)
 > **Documentation Location**: `docs/project-management/QUALITY_GATE.md`
@@ -92,12 +92,22 @@ Every pull request must meet all governance rules defined in `CONTRIBUTING.md` a
 
 1. **Target Branch**: Pull requests must target `develop`. Direct PRs to `main` are rejected unless tagged as an official production release.
 2. **Traceability Linkage**: The PR title must follow conventional commits (e.g., `feat(frontend): ...`, `docs(pm): ...`). The PR body must include `Closes #<issue_number>` to maintain bidirectional issue traceability.
-3. **Branch Naming**: The branch must originate from the assigned role branch pattern: `<username>/<feature-topic>`.
-4. **CODEOWNERS Review**:
-   * Architecture, Backend, CoreIOT changes require review from `@Huyhuy225`.
-   * Firmware and Gateway changes require review from `@tranhoangkhanh-hkt`.
-   * Frontend changes require review from `@gutjmosnin`.
-   * Minimum 1 approved review required prior to merge.
+3. **Approved Branch Naming Policy**: The branch must originate from the approved role-prefixed convention:
+   * **Huy**: `feature/huy-<task-name>`
+   * **Khánh**: `feature/khanh-<task-name>`
+   * **Ý**: `feature/y-<task-name>`
+   *(Note: Transitional branches during initial bootstrap used `<username>/<topic>`; future feature work must strictly use `feature/<member>-<task-name>`)*.
+4. **Current Verified Enforcement vs. Desired Policy**:
+   * **Desired Policy**: Every PR targeting `develop` must receive at least 1 peer approval and CODEOWNERS sign-off before merging:
+     * Architecture, Backend, CoreIOT changes reviewed by `@Huyhuy225`.
+     * Firmware and Gateway changes reviewed by `@tranhoangkhanh-hkt`.
+     * Frontend changes reviewed by `@gutjmosnin`.
+   * **Current Verified GitHub Enforcement**:
+     * `main`: Strictly enforces `required_approving_review_count: 1` and `require_code_owner_reviews: true`.
+     * `develop`: Currently configured with `required_approving_review_count: 0` and `require_code_owner_reviews: false` (while strictly enforcing Repository Hygiene CI and conversation resolution).
+   * **Governance Gap & Remediation**:
+     * *Gap*: PRs to `develop` can technically merge with 0 approvals on GitHub during the single-maintainer bootstrap period.
+     * *Remediation Plan*: As soon as collaborator invitations for Khánh (`@tranhoangkhanh-hkt`) and Ý (`@gutjmosnin`) are accepted, Technical Lead Huy will update `develop` branch protection to require 1 approval and mandatory CODEOWNERS review. In the interim, peer review approval is a required procedural rule for all team pull requests.
 5. **No Scope Creep**: PRs must modify only files directly relevant to the assigned issue. Documentation PRs must never touch application source code; application PRs must never alter governance or root contracts without explicit architectural consensus.
 
 ---

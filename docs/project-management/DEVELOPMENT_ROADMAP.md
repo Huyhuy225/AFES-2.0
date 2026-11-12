@@ -1,7 +1,7 @@
 # AFES 2.0 – Phased Development Roadmap and Stage Boundaries
 
 > **Document Version**: 2.0.0
-> **Status**: Approved Project Management Baseline
+> **Status**: DRAFT — pending Technical Lead approval
 > **Target Base**: `develop` branch at commit [`bb5bba7059957c5d80a02128d77961ff66af970b`](https://github.com/Huyhuy225/AFES-2.0/commit/bb5bba7059957c5d80a02128d77961ff66af970b)
 > **Course**: Internet of Things (IoT) – Semester 261 (HCMUT)
 > **Documentation Location**: `docs/project-management/DEVELOPMENT_ROADMAP.md`
@@ -72,7 +72,7 @@ STAGE B: PHYSICAL HARDWARE COMMISSIONING & LAB EVALUATION (Physical Hardware Req
      * Telemetry ingestion engine accepting MQTT feeds from multiple virtual nodes.
      * Offline resilient caching via local SQLite database.
      * Safe bidirectional command routing (`cmd/req` and `cmd/res`).
-* **Deliverables**: `tools/mock_simulator/`, `local-gateway/src/engine/`, `reports/evidence/T08/STAGE_A_GATEWAY_EVIDENCE.md`.
+* **Deliverables**: `tools/mock_simulator/` (Planned deliverable path), `local-gateway/src/engine/` (Planned deliverable path), `reports/evidence/T08/STAGE_A_GATEWAY_EVIDENCE.md` (Planned deliverable).
 * **Exit Criteria**: 100% automated contract pass rate; simulator and gateway run cleanly in local Docker environment without hardware dependencies.
 
 ---
@@ -88,7 +88,7 @@ STAGE B: PHYSICAL HARDWARE COMMISSIONING & LAB EVALUATION (Physical Hardware Req
   2. **Standalone Gateway Operations UI (Course T10)**:
      * Implement lightweight local web dashboard (`local-gateway/ui/`) served directly by the gateway.
      * Ensure 100% monitoring and manual override functionality during total WAN / Internet outage.
-* **Deliverables**: `local-gateway/src/edge_ai/`, `local-gateway/ui/`, `reports/evidence/T09/`, `reports/evidence/T10/`.
+* **Deliverables**: `local-gateway/src/edge_ai/` (Planned deliverable path), `local-gateway/ui/` (Planned deliverable path), `reports/evidence/T09/` (Planned path), `reports/evidence/T10/` (Planned path).
 * **Exit Criteria**: Local gateway web UI operates independently with zero external cloud dependencies.
 
 ---
@@ -110,7 +110,7 @@ STAGE B: PHYSICAL HARDWARE COMMISSIONING & LAB EVALUATION (Physical Hardware Req
      * Implement `/api/v2/*` REST endpoints, JWT authentication, MySQL persistence, and STOMP WebSocket streams.
   6. **Frontend Fullstack Completion (Course N06)**:
      * Connect React dashboard to Spring Boot live endpoints; implement persistent event logging and 2D floorplan canvas.
-* **Deliverables**: `coreiot/`, `backend/`, `frontend/src/components/FloorPlan/`, `reports/evidence/N06/`.
+* **Deliverables**: `coreiot/` (Planned deliverable path), `backend/` (Planned deliverable path), `frontend/src/components/FloorPlan/` (Planned deliverable path), `reports/evidence/N06/` (Actual baseline exists; full M4 evidence planned).
 * **Exit Criteria**: End-to-end telemetry flow from simulator $\to$ gateway $\to$ CoreIOT $\to$ backend $\to$ browser dashboard.
 
 ---
@@ -128,7 +128,7 @@ STAGE B: PHYSICAL HARDWARE COMMISSIONING & LAB EVALUATION (Physical Hardware Req
   6. **ESP-NOW Peer-to-Peer Communication (Course T06)**: Wireless frame transmission between edge node and gateway receiver.
   7. **Embedded Web Server (Course T07)**: ESP32-S3 on-device diagnostic HTTP server for direct local control.
   8. **CoreIOT OTA Remote Updates (Course T14)**: Firmware update package deployed via CoreIOT OTA service.
-* **Deliverables**: `firmware/esp32-s3/`, `reports/evidence/T01/` through `reports/evidence/T07/`, `reports/evidence/T14/`.
+* **Deliverables**: `firmware/esp32-s3/` (Planned deliverable path), `reports/evidence/T01/` through `reports/evidence/T07/` (Planned evidence paths), `reports/evidence/T14/` (Planned evidence path).
 * **Exit Criteria**: Hardware demonstrator operates in physical laboratory; oscilloscope/serial logs confirm sensor and radio operation.
 
 ---
@@ -139,8 +139,8 @@ STAGE B: PHYSICAL HARDWARE COMMISSIONING & LAB EVALUATION (Physical Hardware Req
 * **Lead**: Võ Quang Huy ([`@Huyhuy225`](https://github.com/Huyhuy225)) with entire team
 * **Target Objectives**:
   1. Full-system live fire simulation in lab with automated actuator triggers (buzzer, water pump).
-  2. Metric collection: sub-500ms edge detection, sub-2s cloud synchronization, 100% offline buffer replay.
+  2. Metric collection: edge detection latency, cloud synchronization latency, and offline buffer replay rate (exact numeric targets TBD pending measurement plan).
   3. Production of high-definition 5–10 minute demonstration video showcasing all claimed technology elements.
   4. Formulation and submission of final PDF report adhering to HCMUT CSE official guidelines.
-* **Deliverables**: `reports/final_report.pdf`, demonstration video URL, archived lab datasets.
+* **Deliverables**: `reports/final_report.pdf` (Planned deliverable), demonstration video URL, archived lab datasets.
 * **Exit Criteria**: Final project package submitted to course portal before academic deadline.

@@ -2,6 +2,7 @@
 
 > **Audit Date**: 2026-11-12
 > **Auditor Role**: Repository Analyst / Technical Project Management Documentation Specialist
+> **Status**: DRAFT — pending Technical Lead approval
 > **Target Base**: `develop` branch at commit [`bb5bba7059957c5d80a02128d77961ff66af970b`](https://github.com/Huyhuy225/AFES-2.0/commit/bb5bba7059957c5d80a02128d77961ff66af970b)
 > **Evaluation Reference**: IoT Course Semester 261 (HCMUT), Course Project Announcement (2026-10-27)
 > **Repository**: [https://github.com/Huyhuy225/AFES-2.0](https://github.com/Huyhuy225/AFES-2.0)
@@ -45,14 +46,14 @@ The table below catalogs every subsystem, module, and contract in AFES 2.0 with 
 | **Legacy Analysis** | `docs/ORIGINAL_AFES_ANALYSIS.md` | `DOCUMENTED` | Commit `ec28aef60a227d3e2f6e91ecbad027a04b3578d0` (PR #4) | Comprehensive forensic breakdown of original AFES vulnerabilities and architectural deficiencies. |
 | **Repository Governance** | `.github/`, `CONTRIBUTING.md`, `DEVELOPMENT_GUIDE.md` | `DOCUMENTED` | Commit `b70d366e9d26db94e14ef347206f8fe02c5716d7` (PR #5) | Branch protection rules, CODEOWNERS, issue templates, PR template, safe `.env.example`, and hygiene policies established. |
 | **CI Workflow** | `.github/workflows/ci.yml` | `TESTED` (Hygiene only) | GitHub Run `43188041658` (develop push) | Runs Python hygiene checks (YAML, text formatting, secrets, governance). Passes 100%, but omits application test suites. |
-| **Frontend Dashboard Baseline** | `frontend/` | `IN_PROGRESS` / `TESTED` (Stage A) | Commit `bb5bba7059957c5d80a02128d77961ff66af970b` (PR #9) | React 18 / Vite / Tailwind SPA. 7 test files, 30 passing Vitest tests. Full N06 is `IN_PROGRESS` pending backend DB persistence and 2D floorplan. |
-| **Telemetry Simulator** | `tools/mock_simulator/` | `NOT_STARTED` | Open Issue [#6](https://github.com/Huyhuy225/AFES-2.0/issues/6) | Directory does not exist. No synthetic ESP32-S3 data generator exists yet. |
-| **Local IoT Gateway** | `local-gateway/` | `NOT_STARTED` | Open Issue [#7](https://github.com/Huyhuy225/AFES-2.0/issues/7) | Directory does not exist. No edge aggregation, SQLite buffering, or command router exists. |
-| **Application Backend** | `backend/` | `NOT_STARTED` | Scheduled for Milestone 4 | Directory does not exist. No Spring Boot 3 service, JPA models, or REST controllers exist. |
-| **CoreIOT Onboarding** | `docs/COREIOT_ONBOARDING.md`, `coreiot/` | `BLOCKED` | Open Issue [#3](https://github.com/Huyhuy225/AFES-2.0/issues/3) | Blocked on tenant provisioning, credentials allocation, and secure onboarding procedure definition. |
-| **Database & Migrations** | `database/` | `NOT_STARTED` | Scheduled for Milestone 4 | No schema files, Liquibase/Flyway migrations, or Docker compose configs exist. |
-| **ESP32-S3 Firmware** | `firmware/esp32-s3/` | `NOT_STARTED` | Scheduled for Milestone 5 (Stage B) | Directory does not exist. No FreeRTOS, PlatformIO, or sensor driver code exists. |
-| **Deployment / Containers** | `deploy/`, `docker-compose.yml` | `NOT_STARTED` | Scheduled for Milestones 3 & 4 | No Dockerfiles, compose specifications, or deployment scripts exist. |
+| **Frontend Dashboard Baseline** | `frontend/` (Actual source) | `IN_PROGRESS` / `TESTED` (Stage A) | Commit `bb5bba7059957c5d80a02128d77961ff66af970b` (PR #9) | React 18 / Vite SPA (custom vanilla CSS in `src/index.css`). 7 test files, 30 passing Vitest tests. Full N06 is `IN_PROGRESS` pending backend DB persistence and 2D floorplan. |
+| **Telemetry Simulator** | `tools/mock_simulator/` (Planned deliverable path) | `NOT_STARTED` | Open Issue [#6](https://github.com/Huyhuy225/AFES-2.0/issues/6) | Directory does not exist. Proposed simulator deliverable; no synthetic ESP32-S3 data generator exists yet. Assignable to Khánh upon invitation acceptance. |
+| **Local IoT Gateway** | `local-gateway/` (Planned deliverable path) | `NOT_STARTED` | Open Issue [#7](https://github.com/Huyhuy225/AFES-2.0/issues/7) | Directory does not exist. Proposed gateway deliverable; no edge aggregation, SQLite buffering, or command router exists. Assignable to Khánh upon invitation acceptance. |
+| **Application Backend** | `backend/` (Planned deliverable path) | `NOT_STARTED (Planning Entry — GitHub Issue Pending Audit Approval)` | Scheduled for Milestone 4 | Directory does not exist. Proposed backend deliverable; no Spring Boot 3 service, JPA models, or REST controllers exist. |
+| **CoreIOT Onboarding** | `docs/COREIOT_ONBOARDING.md` (Planned deliverable), `coreiot/` (Planned deliverable path) | `BLOCKED` | Open Issue [#3](https://github.com/Huyhuy225/AFES-2.0/issues/3) | Blocked on tenant provisioning, credentials allocation, and secure onboarding procedure definition. Owned by Technical Lead Huy. |
+| **Database & Migrations** | `database/` (Planned deliverable path) | `NOT_STARTED (Planning Entry — GitHub Issue Pending Audit Approval)` | Scheduled for Milestone 4 | No schema files, Liquibase/Flyway migrations, or Docker compose configs exist. |
+| **ESP32-S3 Firmware** | `firmware/esp32-s3/` (Planned deliverable path) | `NOT_STARTED (Planning Entry — GitHub Issue Pending Audit Approval)` | Scheduled for Milestone 5 (Stage B) | Directory does not exist. Proposed firmware deliverable; no FreeRTOS, PlatformIO, or sensor driver code exists. |
+| **Deployment / Containers** | `deploy/`, `docker-compose.yml` (Planned deliverable paths) | `NOT_STARTED (Planning Entry — GitHub Issue Pending Audit Approval)` | Scheduled for Milestones 3 & 4 | No Dockerfiles, compose specifications, or deployment scripts exist. |
 
 ---
 
@@ -164,7 +165,7 @@ The current workflow `.github/workflows/ci.yml` triggers on pushes and pull requ
 |---|---|---|---|---|---|---|
 | **#1** | Issue | Establish repository governance and contribution baseline | `OPEN` | `@Huyhuy225` | `DOCUMENTED` / Merged | **Tracking Inconsistency**: Closed in commit `b70d366` via PR #5, but PR was merged into `develop`. GitHub auto-close keywords only close issues on default branch (`main`). |
 | **#2** | Issue | Publish AFES 2.0 course matrix, architecture, telemetry and API contracts | `OPEN` | `@Huyhuy225` | `DOCUMENTED` / Merged | **Tracking Inconsistency**: Closed in commit `ec28aef` via PR #4 into `develop`. GitHub auto-close did not fire. Remains open on GitHub. |
-| **#3** | Issue | Prepare secure CoreIOT project onboarding plan | `OPEN` | `@Huyhuy225` | `BLOCKED` / In Planning | Genuine open work item. Blocked on tenant onboarding and credentials provisioning. |
+| **#3** | Issue | Prepare secure CoreIOT project onboarding plan | `OPEN` | `@Huyhuy225` | `BLOCKED` / In Planning | Genuine open work item. Blocked on tenant onboarding and credentials provisioning. Owned exclusively by Technical Lead Huy (`@Huyhuy225`); not assignable to Khánh or Ý. |
 | **#4** | PR | docs(architecture): publish requirements, contracts, architecture, and original analysis | `MERGED` | `@Huyhuy225` | Merged into `develop` | Closed commit `ec28aef60a227d3e2f6e91ecbad027a04b3578d0`. Established architectural foundation. |
 | **#5** | PR | docs(governance): establish repository governance and contribution baseline | `MERGED` | `@Huyhuy225` | Merged into `develop` | Closed commit `b70d366e9d26db94e14ef347206f8fe02c5716d7`. Established CI hygiene and governance. |
 | **#6** | Issue | Stage A: build ESP32-S3 telemetry simulator and MQTT contract tests | `OPEN` | Unassigned | `NOT_STARTED` | Genuine open work item for Milestone 2. Assigned to Khánh in planning, pending invitation acceptance. |
@@ -183,11 +184,26 @@ Inspection of repository invitations via GitHub API (`/repos/Huyhuy225/AFES-2.0/
 
 | Team Member | GitHub Username | Role Assignment | Invitation Status | Permissions | Actual Assignment Status |
 |---|---|---|---|---|---|
-| **Võ Quang Huy** | `@Huyhuy225` | Technical Lead / Architecture, Backend & CoreIOT | Owner | Admin | Active & Assigned |
-| **Hoàng Khánh** | `@tranhoangkhanh-hkt` | Firmware & Local Gateway Lead (Role 2) | Invitation #`343116245` sent | Write | **Pending Acceptance** (Cannot be assigned to GitHub issues until accepted) |
-| **Ý** | `@gutjmosnin` | Frontend Engineering & UI/UX Lead (Role 3) | Invitation #`343093548` sent | Write | **Pending Acceptance** (Cannot be assigned to GitHub issues until accepted) |
+| **Võ Quang Huy** | `@Huyhuy225` | Technical Lead / Architecture, Backend & CoreIOT | Owner | Admin | Active & Assigned (Owns Issues #1, #2, #3, #10) |
+| **Hoàng Khánh** | `@tranhoangkhanh-hkt` | Firmware & Local Gateway Lead (Role 2) | Invitation #`343116245` sent | Write | **Pending Acceptance** (Assignable to Issues #6 and #7 only after acceptance; does not own #3) |
+| **Ý** | `@gutjmosnin` | Frontend Engineering & UI/UX Lead (Role 3) | Invitation #`343093548` sent | Write | **Pending Acceptance** (Assignable to future frontend issues only after acceptance; does not own #3) |
 
 *Mandatory Audit Note*: Neither collaborator invitation has been accepted as of this audit. All project management documents represent team assignments as planned and pending acceptance, without claiming accepted status.
+
+### 6.1. Verified Branch Protection Enforcement Audit
+Inspection of branch protection rules via GitHub API (`/repos/Huyhuy225/AFES-2.0/branches/{branch}/protection`):
+* **`main` Branch**:
+  * Status Checks: `strict: true`, requires context `Repository Hygiene`.
+  * Pull Request Reviews: `required_approving_review_count: 1`, `require_code_owner_reviews: true`, `require_last_push_approval: true`, `dismiss_stale_reviews: true`.
+  * Conversation Resolution: `required_conversation_resolution: true`.
+  * Admin Enforcement: `enforce_admins: true`.
+* **`develop` Branch**:
+  * Status Checks: `strict: true`, requires context `Repository Hygiene`.
+  * Pull Request Reviews: `required_approving_review_count: 0`, `require_code_owner_reviews: false`, `require_last_push_approval: false`.
+  * Conversation Resolution: `required_conversation_resolution: true`.
+  * Admin Enforcement: `enforce_admins: true`.
+
+*Key Finding on Branch Protection*: While `main` enforces 1 approving review and mandatory CODEOWNERS review, `develop` currently enforces 0 approvals and no codeowner reviews. This difference accommodated initial single-maintainer bootstrapping. As team members accept invitations, `develop` must be remediated to require 1 approval and CODEOWNERS reviews.
 
 ---
 
@@ -202,6 +218,7 @@ Inspection of repository invitations via GitHub API (`/repos/Huyhuy225/AFES-2.0/
 | **RSK-05** | Governance / Team | Collaborator invitations for Khánh and Ý are pending acceptance. | Medium | GitHub PR review and issue assignment cannot be enforced on-platform. | Coordinate with team members to accept invitations at `https://github.com/Huyhuy225/AFES-2.0/invitations`. | Huy (`@Huyhuy225`) |
 | **RSK-06** | Platform / Access | CoreIOT tenant credentials and server access are unprovisioned (Issue #3). | High | Blocks course elements T11, T12, T13, T15 from entering implementation. | Complete Issue #3 onboarding procedure and configure tenant environment safely. | Huy (`@Huyhuy225`) |
 | **RSK-07** | Tracking / Hygiene | Issues #1 and #2 remain open despite merged PRs due to base branch target. | Low | Project board metrics and open issue count appear inaccurate. | Reconcile issue state manually or configure GitHub Project automation. | Huy (`@Huyhuy225`) |
+| **RSK-08** | Governance / Security | `develop` branch protection currently requires 0 approving reviews and no CODEOWNERS check. | Medium | Potential for unreviewed merges to `develop` once multiple contributors have push/PR access. | Update `develop` branch protection to require 1 approval and CODEOWNERS review once collaborators accept invitations. | Huy (`@Huyhuy225`) |
 
 ---
 

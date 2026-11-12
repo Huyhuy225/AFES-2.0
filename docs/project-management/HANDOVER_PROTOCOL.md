@@ -1,7 +1,7 @@
 # AFES 2.0 – Operational Handover and Developer Onboarding Protocol
 
 > **Document Version**: 2.0.0
-> **Status**: Approved Project Management Baseline
+> **Status**: DRAFT — pending Technical Lead approval
 > **Target Base**: `develop` branch at commit [`bb5bba7059957c5d80a02128d77961ff66af970b`](https://github.com/Huyhuy225/AFES-2.0/commit/bb5bba7059957c5d80a02128d77961ff66af970b)
 > **Course**: Internet of Things (IoT) – Semester 261 (HCMUT)
 > **Documentation Location**: `docs/project-management/HANDOVER_PROTOCOL.md`
@@ -26,7 +26,7 @@ At dispatch baseline, repository write invitations are pending for:
 2. Navigate directly to: [https://github.com/Huyhuy225/AFES-2.0/invitations](https://github.com/Huyhuy225/AFES-2.0/invitations).
 3. Click **Accept Invitation**.
 4. Notify Technical Lead Võ Quang Huy (`@Huyhuy225`) once accepted.
-5. Technical Lead will formally bind issue assignees on GitHub Issues [#3](https://github.com/Huyhuy225/AFES-2.0/issues/3), [#6](https://github.com/Huyhuy225/AFES-2.0/issues/6), and [#7](https://github.com/Huyhuy225/AFES-2.0/issues/7).
+5. Technical Lead will formally bind issue assignment for Khánh on GitHub Issues [#6](https://github.com/Huyhuy225/AFES-2.0/issues/6) and [#7](https://github.com/Huyhuy225/AFES-2.0/issues/7) upon acceptance. (Note: Issue #3 remains assigned to Technical Lead Huy for CoreIOT architecture and onboarding; Ý will be assigned to future frontend backlog issues upon acceptance).
 
 ---
 
@@ -85,12 +85,13 @@ Every engineer or dispatched worker must execute their work following these seve
 * Always base your feature branch on the latest `origin/develop`:
 ```bash
 git fetch origin develop
-git checkout -b <username>/<feature-name> origin/develop
+git checkout -b feature/<member>-<task-name> origin/develop
 ```
-* Example branch names:
-  * `tranhoangkhanh-hkt/sim-telemetry-engine`
-  * `gutjmosnin/frontend-floorplan-n06`
-  * `Huyhuy225/coreiot-onboarding-plan`
+* Approved role-prefixed branch naming convention:
+  * **Huy**: `feature/huy-<task-name>` (e.g., `feature/huy-coreiot-onboarding`, `feature/huy-backend-baseline`)
+  * **Khánh**: `feature/khanh-<task-name>` (e.g., `feature/khanh-telemetry-simulator`, `feature/khanh-local-gateway-skeleton`)
+  * **Ý**: `feature/y-<task-name>` (e.g., `feature/y-frontend-floorplan`, `feature/y-mock-fallback-banner`)
+*(Note: Transitional branches during initial bootstrap used `<username>/<topic>`; all future development must strictly follow `feature/<member>-<task-name>`)*.
 
 ### Step 3: Implement Changes Adhering to Technical Contracts
 * Strictly adhere to [`docs/API_SPECIFICATION.md`](../API_SPECIFICATION.md) and [`docs/TELEMETRY_SCHEMA.md`](../TELEMETRY_SCHEMA.md).
@@ -113,7 +114,7 @@ npm run build
 * Commit reproducible test logs to `reports/evidence/<ITEM_ID>/`.
 * Push your branch to `origin`:
 ```bash
-git push -u origin <username>/<feature-name>
+git push -u origin feature/<member>-<task-name>
 ```
 * Open a pull request targeting `develop`.
 * Title format: `<type>(<scope>): <short description>` (e.g., `feat(gateway): implement Stage A aggregation skeleton`).
@@ -138,7 +139,7 @@ When concluding an engineering session or handing over to another team member or
 * **Author / Role**: [Your Name / Username / Role]
 * **Task ID & Name**: [e.g., TASK-SIM-01 Stage A Telemetry Simulator]
 * **Target Issue**: [e.g., Closes #6]
-* **Branch / Commit SHA**: [e.g., tranhoangkhanh-hkt/sim-telemetry-engine @ commit_sha]
+* **Branch / Commit SHA**: [e.g., feature/khanh-telemetry-simulator @ commit_sha]
 * **Status**: [IMPLEMENTED / TESTED / IN_PROGRESS / BLOCKED]
 
 #### 1. What was completed:
