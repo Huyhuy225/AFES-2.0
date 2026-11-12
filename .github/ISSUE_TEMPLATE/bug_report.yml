@@ -1,0 +1,82 @@
+name: Bug Report
+description: Report a bug, crash, or unexpected behavior in AFES 2.0
+title: "[BUG]: <short description>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue in AFES 2.0.
+        **Security Notice**: NEVER share real credentials, API tokens, or secrets.
+
+  - type: input
+    id: course-id
+    attributes:
+      label: Course Requirement ID
+      description: Specify the relevant course requirement ID (e.g., T01 through T15) or "N/A" with explanation.
+      placeholder: "e.g., T01, T04, or N/A (DevOps)"
+    validations:
+      required: true
+
+  - type: input
+    id: linked-issues
+    attributes:
+      label: Linked / Related Issue(s)
+      description: Reference any parent, dependent, or related issue(s).
+      placeholder: "e.g., #1 or None"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Provide a clear and concise description of the bug.
+      placeholder: Describe what happened and what the expected behavior was.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Details
+      description: Specify OS, runtime/tool versions, and whether this occurs under Simulation or Physical Hardware.
+      placeholder: |
+        - Environment Mode: Simulation / Physical Hardware
+        - Hardware (if applicable): ESP32-WROOM-32, MQ-2, DHT22, etc.
+        - Software/OS: Windows 11 / Ubuntu 22.04, Python 3.14, Node v22
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-and-tests
+    attributes:
+      label: Steps to Reproduce & Testing Verification
+      description: Detail the exact steps to reproduce the bug and the verification tests run.
+      placeholder: |
+        1. Start local gateway simulation...
+        2. Publish test MQTT telemetry payload...
+        3. Observe error code...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs-and-screenshots
+    attributes:
+      label: Screenshots or Logs
+      description: Attach relevant terminal output, serial monitor logs, or screenshots.
+      placeholder: Paste sanitized logs here (ensure all credentials/keys are redacted).
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission Verification
+      options:
+        - label: I confirmed this issue reproduces on the latest `develop` branch.
+          required: true
+        - label: I ensured no private credentials, passwords, or secret tokens are included.
+          required: true
+        - label: I distinguished between simulation and physical hardware testing.
+          required: true

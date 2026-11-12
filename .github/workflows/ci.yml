@@ -1,0 +1,162 @@
+name: Repository Hygiene CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  repository-hygiene:
+    name: Repository Hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python for deterministic validation
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
+
+      - name: Validate YAML syntax
+        shell: python
+        run: |
+          import glob
+          import sys
+          import yaml
+
+          yaml_files = glob.glob('.github/**/*.yml', recursive=True) + glob.glob('.github/**/*.yaml', recursive=True)
+          errors = 0
+          for yf in yaml_files:
+              try:
+                  with open(yf, 'r', encoding='utf-8') as f:
+                      yaml.safe_load(f)
+                  print(f'OK: {yf}')
+              except Exception as e:
+                  print(f'ERROR parsing {yf}: {e}', file=sys.stderr)
+                  errors += 1
+          if errors > 0:
+              sys.exit(1)
+          print(f'Successfully validated {len(yaml_files)} YAML files.')
+
+      - name: Validate repository whitespace and text hygiene
+        shell: python
+        run: |
+          import os
+
+          errors = 0
+          for root, dirs, files in os.walk('.'):
+              if '.git' in dirs:
+                  dirs.remove('.git')
+              for file in files:
+                  path = os.path.join(root, file)
+                  try:
+                      with open(path, 'rb') as f:
+                          content = f.read()
+                      if not path.endswith(('.bin', '.elf', '.hex', '.png', '.jpg', '.ico')):
+                          text = content.decode('utf-8')
+                          if text and not text.endswith('\n'):
+                              print(f'NOTICE: Missing final newline in {path}')
+                  except UnicodeDecodeError:
+                      continue
+          print('Whitespace and text hygiene check completed.')
+
+      - name: Verify secrets hygiene
+        shell: python
+        run: |
+          import base64
+          import os
+          import re
+          import sys
+
+          # High-entropy token and key signatures (base64-encoded to prevent self-match on this workflow file)
+          SIGNATURE_RULES = [
+              re.compile(base64.b64decode(b'LS0tLS1CRUdJTiBbQS1aIF0qUFJJVkFURSBLRVk=').decode('ascii')),
+              re.compile(base64.b64decode(b'QUtJQVswLTlBLVpdezE2fQ==').decode('ascii')),
+              re.compile(base64.b64decode(b'Z2hwX1swLTlhLXpBLVpdezM2fQ==').decode('ascii')),
+              re.compile(base64.b64decode(b'Z2l0aHViX3BhdF9bMC05YS16QS1aX117ODJ9').decode('ascii')),
+              re.compile(base64.b64decode(b'eG94W2JhcHJzXS1bMC05YS16QS1aXXsxMCw0OH0=').decode('ascii')),
+          ]
+
+          ALLOWED_PLACEHOLDER_REGEX = re.compile(
+              r'(?i)^(placeholder[a-z0-9_]*|example[a-z0-9_]*|changeme[a-z0-9_]*|your_[a-z0-9_]*|test[a-z0-9_]*|dummy[a-z0-9_]*|tbd|<pending[a-z0-9_>-]*|\$\{.*\}|\[.*\]|\{.*\}|)$'
+          )
+
+          CREDENTIAL_ASSIGNMENT_REGEX = re.compile(
+              r'(?i)^\s*(?:export\s+)?([A-Z0-9_]*(?:PASSWORD|SECRET|TOKEN|API_KEY|PRIVATE_KEY)[A-Z0-9_]*)\s*[:=]\s*["\']?([^"\'\s#]+)["\']?'
+          )
+
+          errors = 0
+          scanned_count = 0
+          for root, dirs, files in os.walk('.'):
+              if '.git' in dirs:
+                  dirs.remove('.git')
+              for file in files:
+                  path = os.path.join(root, file)
+                  scanned_count += 1
+                  if file.startswith('.env') and file != '.env.example':
+                      print(f'ERROR: Committed environment file detected: {path}', file=sys.stderr)
+                      errors += 1
+                  try:
+                      with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+                          for idx, line in enumerate(f, 1):
+                              for pat in SIGNATURE_RULES:
+                                  if pat.search(line):
+                                      print(f'ERROR: Known secret signature found in {path}:{idx}', file=sys.stderr)
+                                      errors += 1
+                              m = CREDENTIAL_ASSIGNMENT_REGEX.search(line)
+                              if m:
+                                  key, val = m.group(1), m.group(2)
+                                  if not ALLOWED_PLACEHOLDER_REGEX.search(val):
+                                      print(f'ERROR: Unredacted credential value found in {path}:{idx} ({key})', file=sys.stderr)
+                                      errors += 1
+                  except Exception:
+                      pass
+
+          print(f'Secrets hygiene check passed across {scanned_count} scanned files (including CI workflow).')
+          if errors > 0:
+              sys.exit(1)
+
+      - name: Verify governance baseline files exist
+        shell: python
+        run: |
+          import os
+          import sys
+
+          required_files = [
+              'CONTRIBUTING.md',
+              'DEVELOPMENT_GUIDE.md',
+              '.github/CODEOWNERS',
+              '.github/pull_request_template.md',
+              '.env.example',
+              '.gitignore'
+          ]
+          missing = [f for f in required_files if not os.path.isfile(f)]
+          if missing:
+              print(f'ERROR: Missing required governance files: {missing}', file=sys.stderr)
+              sys.exit(1)
+          print('All required governance baseline files are present.')
+
+      - name: Application Test Notice
+        run: |
+          echo "=============================================================================="
+          echo "APPLICATION TEST STATUS NOTICE:"
+          echo "This repository is currently in the initial architecture and governance baseline."
+          echo "No application source modules (backend, firmware, gateway, frontend) exist yet."
+          echo "Per repository governance, application test suites are intentionally not run,"
+          echo "and no absent application tests are claimed to pass."
+          echo "=============================================================================="

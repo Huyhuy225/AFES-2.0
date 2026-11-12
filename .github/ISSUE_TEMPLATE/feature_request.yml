@@ -1,0 +1,75 @@
+name: Feature Request
+description: Propose a new feature, architecture component, or capability for AFES 2.0
+title: "[FEAT]: <short description>"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a feature for AFES 2.0.
+        All proposals must align with the system architecture and course requirements.
+
+  - type: input
+    id: course-id
+    attributes:
+      label: Course Requirement ID
+      description: Specify the relevant course requirement ID (e.g., T01 through T15) or "N/A".
+      placeholder: "e.g., T02, T06"
+    validations:
+      required: true
+
+  - type: input
+    id: linked-issues
+    attributes:
+      label: Linked / Related Issue(s)
+      description: Reference any parent, dependent, or related issue(s).
+      placeholder: "e.g., #2 or None"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary & Motivation
+      description: What problem does this solve, and what value does it bring to AFES 2.0?
+      placeholder: Describe the motivation and user/system value clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Implementation Details
+      description: Describe the technical design and affected components (ESP32 firmware, Local Gateway, CoreIOT, Backend, or Frontend).
+      placeholder: Outline the technical solution, APIs, or data flows involved.
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation-plan
+    attributes:
+      label: Testing & Validation Strategy
+      description: Explain how this feature will be tested. Clearly distinguish between Simulation and Physical Hardware tests.
+      placeholder: |
+        - Simulation Testing: Mock payload tests, automated unit/integration checks...
+        - Physical Hardware Testing: Real ESP32 bench testing, sensor verification...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs-and-screenshots
+    attributes:
+      label: Screenshots, Diagrams, or Sample Payloads
+      description: Attach UI mockups, architecture flow diagrams, or sample telemetry payloads if relevant.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission Verification
+      options:
+        - label: This proposal complies with AFES 2.0 architecture and telemetry specifications.
+          required: true
+        - label: No private credentials or proprietary external code are introduced.
+          required: true

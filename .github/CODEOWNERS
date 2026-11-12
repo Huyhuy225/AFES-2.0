@@ -1,0 +1,37 @@
+# ==============================================================================
+# AFES 2.0 - Code Ownership Configuration
+# ==============================================================================
+# This file defines code review ownership across repository subsystems.
+#
+# Maintainers:
+# - Võ Quang Huy (@Huyhuy225): CoreIOT integration, Application Backend, DevOps
+# - Ý (@gutjmosnin): Frontend & Presentation Layer
+#
+# Pending Maintainer:
+# - Khánh: Pending GitHub username confirmation (assigned to Firmware & Local Gateway)
+# ==============================================================================
+
+# Default fallback owner for all repository files
+* @Huyhuy225
+
+# Repository Governance & Documentation
+/.github/ @Huyhuy225
+/docs/ @Huyhuy225
+/CONTRIBUTING.md @Huyhuy225
+/DEVELOPMENT_GUIDE.md @Huyhuy225
+/.env.example @Huyhuy225
+/.gitignore @Huyhuy225
+
+# Domain Ownership Assignments
+# ------------------------------------------------------------------------------
+# CoreIOT Platform Integration & Application Backend
+/coreiot/ @Huyhuy225
+/backend/ @Huyhuy225
+
+# Frontend & Presentation Layer
+/frontend/ @gutjmosnin
+
+# Embedded Firmware & Local Gateway (Assigned to pending maintainer Khanh)
+# Note: Khanh's official GitHub handle is pending confirmation; @Huyhuy225 serves as interim active owner.
+/firmware/ @Huyhuy225 # Pending: Khanh (@pending-khanh)
+/local-gateway/ @Huyhuy225 # Pending: Khanh (@pending-khanh)
