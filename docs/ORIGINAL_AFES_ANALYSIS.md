@@ -152,7 +152,7 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 | **Local Gateway** | **T08** | IoT Gateway on PC/Pi aggregating data | **ABSENT** | Nodes connect directly to cloud/central Mosquitto; no local edge gateway tier. |
 | | **T09** | AI function running on Local IoT Gateway | **ABSENT** | No gateway-level computer vision, time-series anomaly detection, or edge ML. |
 | | **T10** | Monitoring/control UI on Local Gateway | **ABSENT** | No local touchscreen, CLI, or local web UI for gateway operations. |
-| **CoreIOT** | **T11** | CoreIOT templates, dashboards, control | **ABSENT** | No ThingsBoard/CoreIOT entity profiles, dashboards, or widgets. |
+| **CoreIOT** | **T11** | CoreIOT templates, dashboards, control | **ABSENT** | No CoreIOT entity profiles, dashboards, or widgets. |
 | | **T12** | CoreIOT RuleChain smart features | **ABSENT** | No RuleChain definitions; alarm logic hardcoded in Java and C++. |
 | | **T13** | Alert notifications on threshold | **PARTIAL/ABSENT** | Local buzzer and backend log exist, but no CoreIOT alarm triggers or notifications. |
 | | **T14** | OTA firmware updates for devices | **ABSENT** | Flashing requires wired USB connection; no OTA update service or CoreIOT OTA package. |
@@ -188,7 +188,7 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 | **Payload Format** | Custom AES-128-CBC encrypted strings per field | Open, standardized JSON Schema v2.0 with type safety and metadata |
 | **Simulation Marker** | None; all data assumed to be physical hardware | Explicit `is_simulated: true/false` envelope flag for Stage A/B |
 | **Command Protocol** | Proprietary encrypted command string without ACK | Standardized RPC contract with idempotency key and ACK status |
-| **Platform Cloud** | None (pure custom Spring Boot & Mosquitto) | CoreIOT Platform (ThingsBoard-based) with RuleChain, OTA, Alarms |
+| **Platform Cloud** | None (pure custom Spring Boot & Mosquitto) | Platform-neutral CoreIOT server (onboarding deferred to Issue #3) with RuleChain, OTA, Alarms |
 | **Edge Processing** | Hardcoded threshold comparators in C++ | Local Gateway aggregation, offline buffering, and Edge AI (T08, T09) |
 | **Sensors** | Physical MQ-2, Flame, DHT20 only | I2C Tasmota (T01), Modbus RS485 (T02), BLE (T03), Virtual Nodes |
 | **Security Model** | Hardcoded secrets, static AES keys, open REST ingest | Vault/Environment secrets, JWT RBAC, TLS, no browser CoreIOT tokens |
@@ -199,6 +199,6 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 
 1. **Adopt Open Telemetry Schema**: Deprecate custom per-field AES encryption in favor of standard TLS transport security and open JSON schema envelopes (`[TELEMETRY_SCHEMA.md](TELEMETRY_SCHEMA.md)`).
 2. **Implement Local IoT Gateway Tier**: Create a standalone Python or Node-based Local Gateway service (`gateway/`) capable of aggregating local sensor traffic, running edge AI anomaly detection, buffering data during network outages, and interfacing with CoreIOT.
-3. **CoreIOT Platform Integration**: Provision CoreIOT device profiles, telemetry mappings, RuleChains for automated alarms, and dashboards mapping to requirements T11–T15.
+3. **CoreIOT Platform Integration**: Provision CoreIOT device profiles, telemetry mappings, RuleChains for automated alarms, and dashboards mapping to requirements T11–T15 (with exact platform onboarding and credential procedures deferred to Issue #3).
 4. **Secure Backend Proxy Pattern**: Re-engineer the Spring Boot backend to act strictly as a secure business facade and RBAC provider. Browser frontends must never directly hold CoreIOT administrative credentials.
 5. **Stage A / Stage B Decoupling**: Build robust virtual simulation nodes with the `is_simulated` marker to enable end-to-end testing and contract verification before deploying physical ESP32-S3 hardware.

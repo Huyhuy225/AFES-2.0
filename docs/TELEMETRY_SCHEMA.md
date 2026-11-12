@@ -9,7 +9,7 @@
 
 ## 1. Specification Overview
 
-The **AFES 2.0 Telemetry and Event Schema** defines the standardized, versioned contract for all data exchange between sensing nodes (ESP32-S3 / virtual simulators), the Local IoT Gateway, the CoreIOT platform (ThingsBoard), and the Application Backend.
+The **AFES 2.0 Telemetry and Event Schema** defines the standardized, versioned contract for all data exchange between sensing nodes (ESP32-S3 / virtual simulators), the Local IoT Gateway, the platform-neutral CoreIOT platform, and the Application Backend.
 
 This specification replaces the legacy, proprietary per-field AES encryption mechanism with an open, structured JSON schema enforced at transport boundaries via standard TLS and JWT/token authentication.
 
@@ -17,7 +17,7 @@ This specification replaces the legacy, proprietary per-field AES encryption mec
 1. **Dual-Stage Lifecycle (Stage A / Stage B)**: All payloads carry an explicit `simulation` object with the `is_simulated` boolean flag to cleanly segregate Stage A virtual simulation data from Stage B physical hardware measurements.
 2. **Deterministic Idempotency**: Every telemetry packet and event message includes a globally unique `message_id` (UUID v4) and monotonic epoch timestamp to eliminate duplicate processing and detect out-of-order delivery.
 3. **Zoning and Multi-Tenancy**: Payloads carry device, zone, and gateway coordinates, supporting multi-node room monitoring and spatial localization.
-4. **CoreIOT Compatibility**: Direct mapping is provided between this domain schema and native ThingsBoard/CoreIOT gateway telemetry formats.
+4. **Local-Gateway-First Architecture**: Sensing nodes route telemetry through the Local IoT Gateway as the primary path for aggregation, edge intelligence, and offline resilience, with platform-specific CoreIOT mappings deferred to Issue #3.
 
 ---
 
@@ -44,20 +44,16 @@ afes/v2/{tenant_id}/gateways/{gateway_id}/status
 | `afes/v2/{tenant_id}/devices/{device_id}/events` | Node $\to$ Gateway / Broker | 2 | High-priority asynchronous state transitions, threshold triggers, and emergency alarms. |
 | `afes/v2/{tenant_id}/devices/{device_id}/command/req` | CoreIOT / Gateway $\to$ Node | 1 | Downlink RPC actuator commands (buzzer, pump, reset, test, emergency shutdown). |
 | `afes/v2/{tenant_id}/devices/{device_id}/command/res` | Node $\to$ CoreIOT / Gateway | 1 | Uplink command execution acknowledgment and status code. |
-| `afes/v2/{tenant_id}/gateways/{gateway_id}/telemetry` | Local Gateway $\to$ CoreIOT | 1 | Batch-aggregated telemetry forwarded by the Local IoT Gateway. |
+| `afes/v2/{tenant_id}/gateways/{gateway_id}/telemetry` | Local Gateway $\to$ CoreIOT | 1 | Batch-aggregated telemetry forwarded by the Local IoT Gateway (primary path). |
 | `afes/v2/{tenant_id}/gateways/{gateway_id}/status` | Local Gateway $\to$ CoreIOT | 1 (Retained) | Local Gateway health, resource consumption, and connectivity state. |
 
-### 2.2. CoreIOT Native Topic Mapping
+### 2.2. CoreIOT Integration and Local Gateway Primary Path
 
-When bridging data into CoreIOT / ThingsBoard:
-* **Direct Device MQTT**:
-  * Telemetry: `v1/devices/me/telemetry`
-  * Client Attributes: `v1/devices/me/attributes`
-  * Server-Side RPC: `v1/devices/me/rpc/request/+` and `v1/devices/me/rpc/response/+`
-* **Local Gateway Protocol (T15 Synchronization)**:
-  * Gateway Telemetry: `v1/gateway/telemetry`
-  * Gateway Attributes: `v1/gateway/attributes`
-  * Gateway RPC: `v1/gateway/rpc`
+In AFES 2.0, the **Local IoT Gateway** (`afes/v2/{tenant_id}/gateways/{gateway_id}/telemetry`) serves as the primary, approved ingestion path for sensing nodes connecting to CoreIOT.
+
+To maintain platform neutrality and prevent unconfirmed vendor assumptions:
+* The telemetry envelope defined in this specification serves as the canonical domain contract.
+* Direct platform-specific topic mappings, attribute payloads, provisioning handshakes, and gateway synchronization RPC contracts for CoreIOT are platform-neutral at this stage and formally specified in [Issue #3 (Prepare secure CoreIOT project onboarding plan)](https://github.com/Huyhuy225/AFES-2.0/issues/3).
 
 ---
 
@@ -243,9 +239,9 @@ To prevent duplicate processing caused by MQTT QoS 1 re-transmissions or network
 1. **Deterministic Message Fingerprinting**:
    The unique tuple `(device_id, message_id)` serves as the primary idempotency key.
 2. **Gateway and Ingestion De-duplication Cache**:
-   The Local Gateway and Backend maintain an in-memory Sliding Window LRU Cache (retention: 120 seconds or 10,000 IDs). If a packet with an existing `message_id` arrives within the window, it is logged as duplicate and dropped before database write.
+   The Local Gateway and Backend maintain an in-memory Sliding Window LRU Cache (retention window and capacity configurable; baseline targets marked TBD during gateway performance benchmarking). If a packet with an existing `message_id` arrives within the active window, it is logged as duplicate and dropped before database write.
 3. **Out-of-Order Handling**:
-   Packets arriving with `timestamp_epoch_ms` older than the last persisted reading by more than 30 seconds are tagged with `status.quality = "OUT_OF_ORDER"` and inserted into historical archives without updating real-time zone summaries.
+   Packets arriving with `timestamp_epoch_ms` significantly older than the last persisted reading (configurable threshold, default marked TBD) are tagged with `status.quality = "OUT_OF_ORDER"` and inserted into historical archives without updating real-time zone summaries.
 
 ---
 

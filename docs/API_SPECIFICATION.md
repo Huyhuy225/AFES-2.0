@@ -12,11 +12,11 @@
 
 ### 1.1. Core Security Invariant: Browser Isolation from CoreIOT
 > **MANDATORY SECURITY INVARIANT**:
-> Web browsers and mobile clients **MUST NEVER** receive, store, or transmit CoreIOT (ThingsBoard) administrative tokens, device access tokens, or platform passwords.
+> Web browsers and mobile clients **MUST NEVER** receive, store, or transmit CoreIOT administrative tokens, device access tokens, or platform credentials.
 
 The Spring Boot Application Server serves as the sole trusted intermediary, enforcing:
 1. **User Identity & Role-Based Access Control (RBAC)**: All user actions are authenticated via standard JWT Bearer tokens.
-2. **CoreIOT Mediation**: The backend securely manages tenant-level CoreIOT credentials, translating frontend user intent into CoreIOT REST/RPC calls or MQTT commands.
+2. **CoreIOT Mediation**: The backend securely manages tenant-level CoreIOT credentials, translating frontend user intent into CoreIOT REST/RPC calls or MQTT commands. Detailed CoreIOT platform onboarding, attribute mappings, and credentials handling are deferred to Issue #3.
 3. **Audit Logging**: Every manual actuator trigger, alarm override, and emergency shutdown is recorded in an immutable audit log.
 
 ```
@@ -27,10 +27,10 @@ The Spring Boot Application Server serves as the sole trusted intermediary, enfo
          |                                                  |
          X  DIRECT ACCESS STRICTLY FORBIDDEN                | CoreIOT Internal API
          |                                                  v
-+------------------+                            +-----------------------+
-|  CoreIOT Server  | <------------------------- |   Local IoT Gateway   |
-|   (ThingsBoard)  |         Sync Protocol      |   (PC / RPi Edge)     |
-+------------------+                            +-----------------------+
++--------------------+                          +-----------------------+
+|   CoreIOT Server   | <----------------------- |   Local IoT Gateway   |
+| (Platform-Neutral) |       Sync Protocol      |   (PC / RPi Edge)     |
++--------------------+                          +-----------------------+
 ```
 
 ---
@@ -115,7 +115,7 @@ Authenticates user credentials and issues JWT tokens.
   ```json
   {
     "username": "admin",
-    "password": "SecurePassword123"
+    "password": "<PASSWORD_PLACEHOLDER>"
   }
   ```
 * **Response `200 OK`**:

@@ -12,7 +12,7 @@
 
 **AFES 2.0 (Advanced Fire Emergency System 2.0)** is a distributed, multi-node emergency sensing, monitoring, and automated suppression platform engineered for modern commercial and institutional facilities.
 
-Building upon an exhaustive baseline audit of the legacy monolithic prototype ([ORIGINAL_AFES_ANALYSIS.md](docs/ORIGINAL_AFES_ANALYSIS.md)), AFES 2.0 introduces an enterprise-grade five-tier architecture. The system combines low-power microcontroller nodes, a resilient edge Local IoT Gateway, the cloud-based CoreIOT platform (ThingsBoard), a secure Spring Boot enterprise backend, and a real-time React web operations dashboard.
+Building upon an exhaustive baseline audit of the legacy monolithic prototype ([ORIGINAL_AFES_ANALYSIS.md](docs/ORIGINAL_AFES_ANALYSIS.md)), AFES 2.0 introduces an enterprise-grade five-tier architecture. The system combines low-power microcontroller nodes, a resilient edge Local IoT Gateway (as the primary ingestion and control path), the platform-neutral CoreIOT platform, a secure Spring Boot enterprise backend, and a real-time React web operations dashboard.
 
 ```
 +=============================================================================+
@@ -30,14 +30,14 @@ Building upon an exhaustive baseline audit of the legacy monolithic prototype ([
         | REST / WebSocket                                   | MQTT RPC Control
         v                                                    v
 +=============================================================================+
-|                  TIER 3: COREIOT PLATFORM (THINGSBOARD ENGINE)              |
+|                  TIER 3: COREIOT PLATFORM (PLATFORM-NEUTRAL)                |
 |  CoreIOT Cloud / Server (T11 - T15)                                         |
 |  - Entity Profiles & Dashboards (T11)  - Automated RuleChain Logic (T12)    |
 |  - Threshold Alerts & Alarms (T13)     - Device OTA Package Repo (T14)      |
-|  - Gateway Synchronization Hub (T15)                                        |
+|  - Gateway Synchronization Hub (T15)   - Mappings Deferred to Issue #3      |
 +=============================================================================+
         ^                                                    |
-        | MQTT Gateway Telemetry                             | MQTT RPC Downlink
+        | MQTT Gateway Telemetry (Primary Path)              | MQTT RPC Downlink
         v                                                    v
 +=============================================================================+
 |                      TIER 2: LOCAL IOT GATEWAY LAYER                         |
@@ -70,14 +70,14 @@ All technical specifications, contracts, and requirement matrices are fully docu
 * **[ARCHITECTURE.md](ARCHITECTURE.md)**: Granular architectural blueprint detailing the five system tiers, fail-safe edge autonomy loops, bidirectional RPC command sequences, and Stage A / Stage B separation.
 * **[TASK_ASSIGNMENT.md](TASK_ASSIGNMENT.md)**: Team organization, role responsibilities, milestone schedules (Weeks 10–16), multi-agent pairing workflows, and contribution policies.
 * **[docs/ORIGINAL_AFES_ANALYSIS.md](docs/ORIGINAL_AFES_ANALYSIS.md)**: Factual technical audit of the original AFES legacy codebase, identifying protocol mismatches, symmetric encryption overhead, reset command defects, and absent course components.
-* **[docs/TELEMETRY_SCHEMA.md](docs/TELEMETRY_SCHEMA.md)**: Formal, versioned (v2.0.0) JSON Schema and MQTT topic specifications covering payload envelopes, sensor readings, alarm events, RPC downlinks, and simulation markers.
+* **[docs/TELEMETRY_SCHEMA.md](docs/TELEMETRY_SCHEMA.md)**: Formal, versioned (v2.0.0) JSON Schema and MQTT topic specifications covering payload envelopes, sensor readings, alarm events, RPC downlinks, simulation markers, and the primary Local Gateway path, with CoreIOT vendor mappings deferred to Issue #3.
 * **[docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md)**: Backend REST and WebSocket API specification defining RBAC expectations, error contracts, spatial zone management, and strict browser isolation from CoreIOT credentials.
 
 ---
 
 ## 3. Two-Stage Execution Lifecycle
 
-To guarantee rigorous engineering standards and eliminate unverified assumptions, AFES 2.0 enforces a strict two-stage implementation lifecycle:
+To guarantee rigorous engineering standards and eliminate unverified assumptions, AFES 2.0 enforces a strict two-stage implementation lifecycle aligned with the official course schedule (Weeks 10–16):
 
 ### Stage A: Virtual Simulation & Contract Validation (Weeks 10–13)
 * **Goal**: Validate end-to-end data pipelines, API contracts, CoreIOT RuleChains, and gateway aggregation using software-simulated sensor nodes.
@@ -93,16 +93,16 @@ To guarantee rigorous engineering standards and eliminate unverified assumptions
 
 ## 4. Course Technology Elements Coverage (T01–T15)
 
-The project architecture natively accommodates the full spectrum of required course technology elements:
+The project architecture natively accommodates the full spectrum of required course technology elements, assigned across team members:
 
-| Category | Elements | Target Implementation Tier |
-|---|---|---|
-| **Group 1: Sensors** | **T01** (I2C / Tasmota), **T02** (Modbus RS485), **T03** (BLE) | Tier 1 (ESP32-S3 Nodes) |
-| **Group 2: TinyML** | **T04** (On-Device Inference), **T05** (Training Tooling Pipeline) | Tier 1 (ESP32-S3) & `tools/` |
-| **Group 3: Local Comms** | **T06** (ESP-NOW Wireless), **T07** (On-Device Web Server) | Tier 1 (ESP32-S3 Nodes) |
-| **Group 4: Local Gateway** | **T08** (PC/Pi Gateway), **T09** (Edge AI), **T10** (Gateway UI) | Tier 2 (Local IoT Gateway) |
-| **Group 5: CoreIOT Platform** | **T11** (Templates/Dashboards), **T12** (RuleChains), **T13** (Alerts), **T14** (OTA), **T15** (Gateway Sync) | Tier 3 (CoreIOT Platform) |
-| **Bonus Features** | **N01** (LLM Assistant), **N06** (Custom Event Dashboard), **N07** (Local ThingsBoard) | Tiers 3, 4, 5 |
+| Category | Elements | Target Implementation Tier | Assigned Lead |
+|---|---|---|---|
+| **Group 1: Sensors** | **T01** (I2C / Tasmota), **T02** (Modbus RS485), **T03** (BLE) | Tier 1 (ESP32-S3 Nodes) | Khánh (Embedded Lead) |
+| **Group 2: TinyML** | **T04** (On-Device Inference), **T05** (Training Tooling Pipeline) | Tier 1 (ESP32-S3) & `tools/` | Khánh (Embedded Lead) |
+| **Group 3: Local Comms** | **T06** (ESP-NOW Wireless), **T07** (On-Device Web Server) | Tier 1 (ESP32-S3 Nodes) | Khánh (Embedded Lead) |
+| **Group 4: Local Gateway** | **T08** (PC/Pi Gateway), **T09** (Edge AI), **T10** (Gateway UI) | Tier 2 (Local IoT Gateway) | Ý (Gateway Lead) |
+| **Group 5: CoreIOT Platform** | **T11** (Templates/Dashboards), **T12** (RuleChains), **T13** (Alerts), **T14** (OTA), **T15** (Gateway Sync) | Tier 3 (CoreIOT Platform) | Ý (Gateway Lead) [Issue #3] |
+| **Bonus Features** | **N01** (LLM Assistant), **N06** (Custom Event Dashboard), **N07** (Local ThingsBoard) | Tiers 3, 4, 5 | Huy (Fullstack Lead) / Team |
 
 ---
 

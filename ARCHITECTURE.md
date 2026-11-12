@@ -44,11 +44,11 @@ The following diagram illustrates the five structural tiers of AFES 2.0 and thei
         | REST / WebSocket                                   | MQTT RPC Control
         v                                                    v
 +=============================================================================+
-|                  TIER 3: COREIOT PLATFORM (THINGSBOARD ENGINE)              |
+|                  TIER 3: COREIOT PLATFORM (PLATFORM-NEUTRAL)                |
 |  CoreIOT Cloud / Server (T11 - T15)                                         |
 |  - Entity Profiles & Dashboards (T11)  - Automated RuleChain Logic (T12)    |
 |  - Threshold Alerts & Alarms (T13)     - Device OTA Package Repo (T14)      |
-|  - Gateway Synchronization Hub (T15)                                        |
+|  - Gateway Synchronization Hub (T15)   - Mappings Deferred to Issue #3      |
 +=============================================================================+
         ^                                                    |
         | MQTT Gateway Telemetry                             | MQTT RPC Downlink
@@ -110,8 +110,8 @@ The following diagram illustrates the five structural tiers of AFES 2.0 and thei
 * **CoreIOT Synchronization Client (T15)**:
   * Maintains an authenticated gateway session with the CoreIOT platform via MQTT, synchronizing device states, attributes, and bidirectional RPC commands.
 
-### 3.3. Tier 3: CoreIOT Platform (ThingsBoard Engine)
-* **Hosting**: Cloud or dedicated server running the HCMUT CoreIOT platform instance.
+### 3.3. Tier 3: CoreIOT Platform (Platform-Neutral Specification)
+* **Platform Scope**: CoreIOT server instance required by the course syllabus. Specific platform connectors, device profile templates, attribute schemas, and credential onboarding procedures are platform-neutral at this stage and formally deferred to Issue #3 (Prepare secure CoreIOT project onboarding plan).
 * **Application Templates & Dashboards (T11)**:
   * Centralized device profiles for `ESP32-S3-Node` and `AFES-Local-Gateway`.
   * Multi-tenant dashboards featuring 2D facility floorplans, real-time gauges, historical trend charts, and RPC control action widgets.
@@ -212,7 +212,7 @@ The following diagram illustrates the five structural tiers of AFES 2.0 and thei
        |  (6) Acquire xOutputMutex; Energize Pump Relay
        |  (7) Publish Command Response: status = SUCCESS (200)
        v
-[Frontend receives WebSocket confirmation within 200 ms]
+[Frontend receives WebSocket confirmation]
 ```
 
 ---
