@@ -3,13 +3,13 @@
 > **Specification Version**: 2.0.0
 > **Status**: Approved Architecture Baseline
 > **Course Project**: Internet of Things (IoT) – Semester 261 (Academic Year 2026–2027)
-> **Target Audience**: Firmware Engineers, Gateway Developers, Backend Engineers, CoreIOT Integrators
+> **Target Audience**: Firmware Engineers, Gateway Developers, CoreIOT Integrators
 
 ---
 
 ## 1. Specification Overview
 
-The **AFES 2.0 Telemetry and Event Schema** defines the standardized, versioned contract for all data exchange between sensing nodes (ESP32-S3 / virtual simulators), the Local IoT Gateway, the platform-neutral CoreIOT platform, and the Application Backend.
+The **AFES 2.0 Telemetry and Event Schema** defines the standardized, versioned contract for data exchange between sensing nodes (ESP32-S3 or virtual simulators), the Local IoT Gateway, and CoreIOT.
 
 This specification replaces the legacy, proprietary per-field AES encryption mechanism with an open, structured JSON schema enforced at transport boundaries via standard TLS and JWT/token authentication.
 
@@ -171,7 +171,7 @@ Events and threshold violations are published immediately upon trigger without w
 
 ## 5. Downlink Actuator Control (RPC) Schema
 
-Downlink commands sent from CoreIOT or the Application Backend to devices use an explicit request/response contract.
+Downlink commands sent from CoreIOT through the Local Gateway to devices use an explicit request/response contract.
 
 ### 5.1. Downlink Request (`command/req`)
 
@@ -239,7 +239,7 @@ To prevent duplicate processing caused by MQTT QoS 1 re-transmissions or network
 1. **Deterministic Message Fingerprinting**:
    The unique tuple `(device_id, message_id)` serves as the primary idempotency key.
 2. **Gateway and Ingestion De-duplication Cache**:
-   The Local Gateway and Backend maintain an in-memory Sliding Window LRU Cache (retention window and capacity configurable; baseline targets marked TBD during gateway performance benchmarking). If a packet with an existing `message_id` arrives within the active window, it is logged as duplicate and dropped before database write.
+   The Local Gateway maintains a bounded de-duplication cache (retention window and capacity configurable; baseline targets marked TBD during gateway performance benchmarking). If a packet with an existing `message_id` arrives within the active window, it is logged as a duplicate and not forwarded again.
 3. **Out-of-Order Handling**:
    Packets arriving with `timestamp_epoch_ms` significantly older than the last persisted reading (configurable threshold, default marked TBD) are tagged with `status.quality = "OUT_OF_ORDER"` and inserted into historical archives without updating real-time zone summaries.
 

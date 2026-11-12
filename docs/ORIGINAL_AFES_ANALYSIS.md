@@ -1,5 +1,7 @@
 # AFES Original System Analysis and Baseline Audit
 
+> **Historical-only notice (Issue #32):** This audit describes the archived prototype and its former recommendations. It is not an active AFES 2.0 scope document. Current scope is defined by [IOT_FIRST_SCOPE.md](project-management/IOT_FIRST_SCOPE.md).
+
 > **Document Status**: Complete & Verified
 > **Target Scope**: Architectural and code baseline audit of the original AFES repository
 > **Course Project**: Internet of Things (IoT) – Semester 261 (Academic Year 2026–2027)
@@ -179,7 +181,7 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 
 ---
 
-## 6. Summary Matrix: Verified Legacy Facts vs. AFES 2.0 Target
+## 6. Historical comparison (superseded target column)
 
 | Dimension | Original AFES (Verified Legacy) | AFES 2.0 (Target Contract) |
 |---|---|---|
@@ -195,7 +197,9 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 
 ---
 
-## 7. Migration Recommendations for AFES 2.0
+## 7. Historical recommendations (superseded by Issue #32)
+
+The following recommendations are retained as audit history only and must not be interpreted as current delivery scope.
 
 1. **Adopt Open Telemetry Schema**: Deprecate custom per-field AES encryption in favor of standard TLS transport security and open JSON schema envelopes (`[TELEMETRY_SCHEMA.md](TELEMETRY_SCHEMA.md)`).
 2. **Implement Local IoT Gateway Tier**: Create a standalone Python or Node-based Local Gateway service (`local-gateway/`) capable of aggregating local sensor traffic, running edge AI anomaly detection, buffering data during network outages, and interfacing with CoreIOT.
