@@ -49,7 +49,7 @@ That CLI and endpoint are the intentionally minimal interpretation of T10; T10 i
 
 ## Data and control flows
 
-Telemetry flows from a node or the simulator to the gateway, then to CoreIOT. CoreIOT stores platform telemetry, updates native widgets, evaluates the RuleChain, and creates alarms. Authorized remote control travels from a CoreIOT widget or RuleChain through the gateway to the target node; acknowledgements return along the same path.
+The target flow sends telemetry from a node or the simulator to the gateway and then to CoreIOT. After blocked onboarding is resolved and T11–T13 are implemented and evidenced, CoreIOT is intended to store platform telemetry, update native widgets, evaluate the RuleChain, and create alarms. The planned control flow sends authorized commands from a CoreIOT widget or RuleChain through the gateway to the target node, with acknowledgements returning along the same path; none of these CoreIOT behaviors is currently claimed as implemented.
 
 The gateway must reject invalid schema versions, preserve message IDs for deduplication, use bounded retries, and avoid replaying unsafe commands. Local safety behavior on a physical node must never depend on WAN availability.
 
