@@ -7,8 +7,8 @@
 # - Võ Quang Huy (@Huyhuy225): CoreIOT integration, Application Backend, DevOps
 # - Ý (@gutjmosnin): Frontend & Presentation Layer
 #
-# Pending Maintainer:
-# - Khánh: Pending GitHub username confirmation (assigned to Firmware & Local Gateway)
+# Firmware and Local Gateway maintainer:
+# - Khánh (@tranhoangkhanh-hkt)
 # ==============================================================================
 
 # Default fallback owner for all repository files
@@ -21,6 +21,7 @@
 /DEVELOPMENT_GUIDE.md @Huyhuy225
 /.env.example @Huyhuy225
 /.gitignore @Huyhuy225
+/WORK_TRACKER.md @Huyhuy225
 
 # Domain Ownership Assignments
 # ------------------------------------------------------------------------------
@@ -31,7 +32,6 @@
 # Frontend & Presentation Layer
 /frontend/ @gutjmosnin
 
-# Embedded Firmware & Local Gateway (Assigned to pending maintainer Khanh)
-# Note: Khanh's official GitHub handle is pending confirmation; @Huyhuy225 serves as interim active owner.
-/firmware/ @Huyhuy225 # Pending: Khanh (@pending-khanh)
-/local-gateway/ @Huyhuy225 # Pending: Khanh (@pending-khanh)
+# Embedded Firmware & Local Gateway
+/firmware/ @tranhoangkhanh-hkt
+/local-gateway/ @tranhoangkhanh-hkt

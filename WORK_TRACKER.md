@@ -84,6 +84,7 @@ Priority uses `P1` (high), `P2` (medium), and `P3` (low). Owners marked **activa
 3. Keep `DOCUMENTED`, simulated, executable, deployed, and physically verified evidence distinct. Documentation or a passing hygiene check is not implementation proof.
 4. Mark hardware, sensor, actuator, OTA, radio, TinyML, or end-to-end physical claims only when reproducible evidence from real equipment is stored and linked. Never promote Stage A simulation evidence to Stage B proof.
 5. Preserve stable IDs. If scope changes, update the row or add a new ID; do not silently reuse an ID for different work.
+6. `WORK_TRACKER.md` is owner-controlled: only a Pull Request opened by `Huyhuy225` may change it, the Tracker Ownership Gate must pass, and the designated Code Review Worker must report before the owner merges it. Other contributors report status through their Issue or Pull Request rather than editing this file.
 
 ## Next actions
 
