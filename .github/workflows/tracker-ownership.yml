@@ -1,0 +1,74 @@
+name: Tracker Ownership Gate
+
+on:
+  pull_request_target:
+    branches:
+      - main
+      - develop
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  pull-requests: read
+
+jobs:
+  tracker-ownership:
+    name: Tracker Ownership Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Enforce root tracker ownership
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          CHANGED_FILE_COUNT: ${{ github.event.pull_request.changed_files }}
+          AUTH_VALUE: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # pull_request_target loads this workflow from the protected target
+          # branch. It deliberately does not check out or execute pull-request
+          # code; only the GitHub API is used to list changed paths.
+          if (( CHANGED_FILE_COUNT > 3000 )); then
+            echo "Pull request changes ${CHANGED_FILE_COUNT} files, exceeding the GitHub API's complete-list limit." >&2
+            echo 'Split the pull request before it can pass the Tracker Ownership Gate.' >&2
+            exit 1
+          fi
+
+          changed_files="$(python - <<'PY'
+          import json
+          import os
+          import re
+          from urllib.request import Request, urlopen
+
+          url = f"{os.environ['GITHUB_API_URL']}/repos/{os.environ['GITHUB_REPOSITORY']}/pulls/{os.environ['PR_NUMBER']}/files?per_page=100"
+          headers = {
+              'Accept': 'application/vnd.github+json',
+              'Authorization': f"Bearer {os.environ['AUTH_VALUE']}",
+              'X-GitHub-Api-Version': '2022-11-28',
+          }
+          while url:
+              request = Request(url, headers=headers)
+              with urlopen(request, timeout=15) as response:
+                  for item in json.load(response):
+                      print(item['filename'])
+                  links = response.headers.get('Link', '')
+              match = re.search(r'<([^>]+)>; rel="next"', links)
+              url = match.group(1) if match else None
+          PY
+          )"
+          if ! grep -Fxq 'WORK_TRACKER.md' <<< "$changed_files"; then
+            echo 'WORK_TRACKER.md is unchanged; ownership gate passes.'
+            exit 0
+          fi
+
+          if [[ "$PR_AUTHOR" != 'Huyhuy225' ]]; then
+            echo "Only Huyhuy225 may submit changes to WORK_TRACKER.md; PR author is $PR_AUTHOR." >&2
+            exit 1
+          fi
+
+          echo 'WORK_TRACKER.md is changed by its authorized owner.'
