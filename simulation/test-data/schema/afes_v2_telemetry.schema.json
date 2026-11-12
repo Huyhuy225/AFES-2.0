@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AFES2TelemetryPayload",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "message_id",
+    "device",
+    "zone",
+    "gateway",
+    "timestamps",
+    "status",
+    "readings",
+    "actuators",
+    "simulation"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "enum": ["2.0"] },
+    "message_id": { "type": "string", "format": "uuid" },
+    "correlation_id": { "type": ["string", "null"] },
+    "device": {
+      "type": "object",
+      "required": ["device_id", "device_type", "firmware_version", "hardware_version", "mac_address"],
+      "properties": {
+        "device_id": { "type": "string", "minLength": 3 },
+        "device_type": { "type": "string" },
+        "firmware_version": { "type": "string" },
+        "hardware_version": { "type": "string" },
+        "mac_address": { "type": "string" }
+      }
+    },
+    "zone": {
+      "type": "object",
+      "required": ["zone_id", "room_code", "building_id", "floor_level"],
+      "properties": {
+        "zone_id": { "type": "string" },
+        "room_code": { "type": "string" },
+        "building_id": { "type": "string" },
+        "floor_level": { "type": "integer" }
+      }
+    },
+    "gateway": {
+      "type": "object",
+      "required": ["gateway_id", "protocol", "mesh_role"],
+      "properties": {
+        "gateway_id": { "type": "string" },
+        "protocol": { "type": "string", "enum": ["MQTT", "ESP_NOW", "BLE", "MODBUS_RS485", "DIRECT"] },
+        "mesh_role": { "type": "string", "enum": ["ENDPOINT", "REPEATER", "GATEWAY"] }
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "required": ["timestamp_utc", "timestamp_epoch_ms", "device_uptime_s"],
+      "properties": {
+        "timestamp_utc": { "type": "string", "format": "date-time" },
+        "timestamp_epoch_ms": { "type": "integer" },
+        "device_uptime_s": { "type": "integer" }
+      }
+    },
+    "status": {
+      "type": "object",
+      "required": ["system_state", "sensor_health", "rssi_dbm"],
+      "properties": {
+        "system_state": { "type": "string", "enum": ["NORMAL", "WARNING", "CRITICAL", "MAINTENANCE", "FAULT"] },
+        "sensor_health": { "type": "string", "enum": ["HEALTHY", "DEGRADED", "WARMING_UP", "ERROR"] },
+        "battery_pct": { "type": ["number", "null"] },
+        "rssi_dbm": { "type": "integer" }
+      }
+    },
+    "readings": {
+      "type": "object",
+      "required": [
+        "temperature",
+        "humidity",
+        "smoke_ppm",
+        "smoke_raw_adc",
+        "flame_detected",
+        "flame_raw_adc"
+      ],
+      "properties": {
+        "temperature": { "type": "number" },
+        "humidity": { "type": "number" },
+        "smoke_ppm": { "type": "number" },
+        "smoke_raw_adc": { "type": "integer", "minimum": 0, "maximum": 4095 },
+        "flame_detected": { "type": "boolean" },
+        "flame_raw_adc": { "type": "integer", "minimum": 0, "maximum": 4095 },
+        "gas_co_ppm": { "type": "number" },
+        "ai_inferred_fire_risk": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+        "ai_classification": { "type": "string" }
+      }
+    },
+    "actuators": {
+      "type": "object",
+      "required": [
+        "buzzer_active",
+        "alarm_led_active",
+        "water_pump_relay_active",
+        "override_mode"
+      ],
+      "properties": {
+        "buzzer_active": { "type": "boolean" },
+        "alarm_led_active": { "type": "boolean" },
+        "water_pump_relay_active": { "type": "boolean" },
+        "exhaust_fan_active": { "type": "boolean" },
+        "override_mode": { "type": "string", "enum": ["AUTO", "MANUAL_OVERRIDE", "EMERGENCY_LOCK"] }
+      }
+    },
+    "simulation": {
+      "type": "object",
+      "required": ["is_simulated", "synthetic_noise_added"],
+      "properties": {
+        "is_simulated": { "type": "boolean" },
+        "scenario_id": { "type": ["string", "null"] },
+        "synthetic_noise_added": { "type": "boolean" }
+      }
+    }
+  }
+}
