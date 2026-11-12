@@ -76,21 +76,92 @@ describe('Dashboard Component Integration Tests', () => {
     });
   });
 
+  it('renders calm neutral default Stage A state with no active alarm/warning and all normal zones', async () => {
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('All monitored sectors nominal')).toBeInTheDocument();
+      expect(screen.getByText('Server Equipment Room')).toBeInTheDocument();
+    });
+
+    // KPI Summary checks: 1 in KPI card + 4 in zone cards = 5 NORMAL labels
+    const normalLabels = screen.getAllByText('NORMAL');
+    expect(normalLabels.length).toBe(5);
+
+    // Verify all 4 default zones are present and nominal
+    expect(screen.getByText('Server Equipment Room')).toBeInTheDocument();
+    expect(screen.getByText('High-Density Battery Vault')).toBeInTheDocument();
+    expect(screen.getByText('Chemical Storage Lab')).toBeInTheDocument();
+    expect(screen.getByText('Executive Operations Center')).toBeInTheDocument();
+
+    // Alarms tab should display clean empty state
+    fireEvent.click(screen.getByTestId('tab-alarms'));
+    await waitFor(() => {
+      expect(screen.getByText('All Systems Nominal')).toBeInTheDocument();
+      expect(screen.getByText('0 active')).toBeInTheDocument();
+    });
+  });
+
+  it('injects deliberate simulation incident with visible [SIMULATED - STAGE A] tag and reversible reset', async () => {
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByText('All monitored sectors nominal')).toBeInTheDocument();
+      expect(screen.getByText('Server Equipment Room')).toBeInTheDocument();
+    });
+
+    // Navigate to controls console
+    fireEvent.click(screen.getByTestId('tab-controls'));
+    await waitFor(() => {
+      expect(screen.getByTestId('btn-sim-fire')).toBeInTheDocument();
+    });
+
+    // Trigger deliberate critical fire simulation
+    fireEvent.click(screen.getByTestId('btn-sim-fire'));
+
+    // Check banner displays [SIMULATED - STAGE A] marker and global status transitions to CRITICAL
+    await waitFor(() => {
+      expect(screen.getByTestId('sim-scenario-banner')).toBeInTheDocument();
+      expect(screen.getByText(/\[SIMULATED - STAGE A\] Active Scenario:/i)).toBeInTheDocument();
+      expect(screen.getByText('CRITICAL')).toBeInTheDocument();
+    });
+
+    // Reset simulation back to neutral baseline via banner button
+    fireEvent.click(screen.getByTestId('btn-banner-reset-sim'));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('sim-scenario-banner')).not.toBeInTheDocument();
+      expect(screen.getByText('All monitored sectors nominal')).toBeInTheDocument();
+      expect(screen.getAllByText('NORMAL').length).toBeGreaterThanOrEqual(1);
+    });
+
+    // Switch back to overview tab to verify all 4 zone cards restored to NORMAL
+    fireEvent.click(screen.getByTestId('tab-overview'));
+    await waitFor(() => {
+      expect(screen.getAllByText('NORMAL').length).toBe(5);
+    });
+  });
+
   it('handles alarm acknowledgment workflow cleanly', async () => {
+    // Deliberately start simulated scenario to generate an alarm
+    apiService.startSimulationScenario('FIRE_SPIKE_ZONE_101');
     render(<Dashboard />);
 
     // Go to alarms tab
     fireEvent.click(screen.getByTestId('tab-alarms'));
+    let ackButton;
     await waitFor(() => {
-      expect(screen.getByTestId('btn-ack-evt-smoke-102-001')).toBeInTheDocument();
+      const ackButtons = screen.getAllByRole('button', { name: /acknowledge/i });
+      expect(ackButtons.length).toBeGreaterThan(0);
+      ackButton = ackButtons[0];
     });
 
     // Click Acknowledge
-    fireEvent.click(screen.getByTestId('btn-ack-evt-smoke-102-001'));
+    fireEvent.click(ackButton);
 
     await waitFor(() => {
       expect(screen.getByText('ACKNOWLEDGED')).toBeInTheDocument();
-      expect(screen.getByTestId('btn-resolve-evt-smoke-102-001')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /resolve & clear/i })).toBeInTheDocument();
     });
   });
 
@@ -109,12 +180,17 @@ describe('Dashboard Component Integration Tests', () => {
   });
 
   it('displays error banner when live alarm acknowledgment fails without simulating success', async () => {
+    // Start simulation scenario to provide an active alarm
+    apiService.startSimulationScenario('FIRE_SPIKE_ZONE_101');
     render(<Dashboard />);
 
     // Go to alarms tab
     fireEvent.click(screen.getByTestId('tab-alarms'));
+    let ackButton;
     await waitFor(() => {
-      expect(screen.getByTestId('btn-ack-evt-smoke-102-001')).toBeInTheDocument();
+      const ackButtons = screen.getAllByRole('button', { name: /acknowledge/i });
+      expect(ackButtons.length).toBeGreaterThan(0);
+      ackButton = ackButtons[0];
     });
 
     // Mock acknowledgeAlarm to reject
@@ -124,7 +200,7 @@ describe('Dashboard Component Integration Tests', () => {
     };
 
     try {
-      fireEvent.click(screen.getByTestId('btn-ack-evt-smoke-102-001'));
+      fireEvent.click(ackButton);
 
       await waitFor(() => {
         expect(screen.getByRole('alert')).toBeInTheDocument();

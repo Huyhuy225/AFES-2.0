@@ -6,6 +6,7 @@ import {
   ShieldAlert,
   Sliders,
   AlertTriangle,
+  FlaskConical,
 } from 'lucide-react';
 import apiService from '../api/sensorApi';
 import Header from '../components/Header';
@@ -157,6 +158,30 @@ export const Dashboard = () => {
             code={error.code}
             onRetry={() => fetchDashboardData(true)}
           />
+        )}
+
+        {activeScenario && (
+          <div className="simulation-active-strip" data-testid="sim-scenario-banner">
+            <div className="sim-strip-left">
+              <FlaskConical size={16} className="text-purple" />
+              <span>
+                <strong>[SIMULATED - STAGE A] Active Scenario:</strong>{' '}
+                {activeScenario === 'FIRE_SPIKE_ZONE_101'
+                  ? 'Zone 101 Fire Incident Injection (75°C + Flame)'
+                  : activeScenario === 'WARNING_SMOKE_ZONE_102'
+                  ? 'Zone 102 Smoke Warning Injection (535 PPM)'
+                  : activeScenario}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="btn-sim-strip-reset"
+              onClick={handleStopScenario}
+              data-testid="btn-banner-reset-sim"
+            >
+              Reset to Neutral Baseline
+            </button>
+          </div>
         )}
 
         {/* Global Stats Bar */}

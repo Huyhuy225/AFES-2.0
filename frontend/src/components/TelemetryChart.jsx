@@ -70,18 +70,18 @@ export const TelemetryChart = ({ telemetry = [], title = 'Environmental Telemetr
         ) : (
           <ResponsiveContainer width="100%" height={320}>
             <LineChart data={chartData} margin={{ top: 10, right: 24, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.08)" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis
                 dataKey="time"
-                stroke="#64748b"
-                tick={{ fontSize: 11, fill: '#94a3b8' }}
+                stroke="#94a3b8"
+                tick={{ fontSize: 11, fill: '#64748b' }}
                 tickLine={false}
               />
               <YAxis
                 yAxisId="temp"
                 orientation="left"
-                stroke="#f97316"
-                tick={{ fontSize: 11, fill: '#fdba74' }}
+                stroke="#ea580c"
+                tick={{ fontSize: 11, fill: '#c2410c' }}
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 'auto']}
@@ -90,8 +90,8 @@ export const TelemetryChart = ({ telemetry = [], title = 'Environmental Telemetr
               <YAxis
                 yAxisId="smoke"
                 orientation="right"
-                stroke="#38bdf8"
-                tick={{ fontSize: 11, fill: '#7dd3fc' }}
+                stroke="#0284c7"
+                tick={{ fontSize: 11, fill: '#0369a1' }}
                 tickLine={false}
                 axisLine={false}
                 domain={[0, 'auto']}
@@ -99,27 +99,27 @@ export const TelemetryChart = ({ telemetry = [], title = 'Environmental Telemetr
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                  borderColor: 'rgba(255, 255, 255, 0.15)',
+                  backgroundColor: '#ffffff',
+                  borderColor: '#e2e8f0',
                   borderRadius: '8px',
-                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
+                  boxShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
                   fontSize: '12px',
-                  color: '#f8fafc',
+                  color: '#0f172a',
                 }}
               />
               <Legend verticalAlign="top" height={36} />
               <ReferenceLine
                 yAxisId="temp"
                 y={THRESHOLDS.TEMP_WARNING_C}
-                label={{ value: 'Temp Warning (50°C)', fill: '#ef4444', fontSize: 10 }}
-                stroke="#ef4444"
+                label={{ value: 'Temp Warning (50°C)', fill: '#dc2626', fontSize: 10 }}
+                stroke="#f87171"
                 strokeDasharray="4 4"
               />
               <ReferenceLine
                 yAxisId="smoke"
                 y={THRESHOLDS.SMOKE_WARNING_PPM}
-                label={{ value: 'Smoke Warning (500 PPM)', fill: '#f59e0b', fontSize: 10 }}
-                stroke="#f59e0b"
+                label={{ value: 'Smoke Warning (500 PPM)', fill: '#d97706', fontSize: 10 }}
+                stroke="#fbbf24"
                 strokeDasharray="4 4"
               />
               <Line
@@ -127,7 +127,7 @@ export const TelemetryChart = ({ telemetry = [], title = 'Environmental Telemetr
                 type="monotone"
                 dataKey="temperature"
                 name="Temperature"
-                stroke="#f97316"
+                stroke="#ea580c"
                 strokeWidth={2}
                 dot={{ r: 2 }}
                 activeDot={{ r: 5 }}
@@ -137,7 +137,7 @@ export const TelemetryChart = ({ telemetry = [], title = 'Environmental Telemetr
                 type="monotone"
                 dataKey="smoke_ppm"
                 name="Smoke PPM"
-                stroke="#38bdf8"
+                stroke="#0284c7"
                 strokeWidth={2}
                 dot={{ r: 2 }}
                 activeDot={{ r: 5 }}
