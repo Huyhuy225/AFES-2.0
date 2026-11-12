@@ -4,16 +4,16 @@ Statuses describe accepted evidence on active `develop`, not intent. `DONE (SIMU
 
 ## Active P1 path
 
-| Item | Active interpretation | Owner | Status | Dependency | Required acceptance evidence | Technology element(s) |
-|---|---|---|---|---|---|---|
-| Stage A | Deterministic telemetry simulator and schema checks | Khánh (`@tranhoangkhanh-hkt`, activation pending) | DONE (SIMULATION) | None | Merged `simulation/` source, tests, fixtures, and [guide](docs/testing/STAGE_A_TELEMETRY_SIMULATOR.md). | Support only (Stage A; no scored claim) |
-| T08 | Local Gateway on PC/Raspberry Pi | Khánh | NOT STARTED ([#7](https://github.com/Huyhuy225/AFES-2.0/issues/7)) | Stage A | Automated ingest/validation tests, broker test, buffering/replay record, CLI and health/status endpoint. | T08 |
-| Onboarding | Secure CoreIOT project setup | Huy (`@Huyhuy225`) | BLOCKED ([#3](https://github.com/Huyhuy225/AFES-2.0/issues/3)) | Authorized tenant/project access | Redacted setup record, credential-handling procedure, device/gateway mapping, successful secure connection. | Prerequisite for T11–T13, T15 |
-| T11 | CoreIOT native device template and dashboard | Ý (`@gutjmosnin`) | NOT STARTED ([#33](https://github.com/Huyhuy225/AFES-2.0/issues/33)) | Onboarding, gateway test feed | Importable configuration, bound widgets, telemetry/history display, remote-control test, screenshots labelled by evidence mode. | T11 |
-| T12 | CoreIOT RuleChain smart features | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | Onboarding, T11 telemetry | Exported RuleChain, reviewed thresholds, deterministic trigger/no-trigger tests. | T12, T13 |
-| T13 | CoreIOT alarms and notifications | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | T12 | Alarm create/clear/acknowledge record and redacted notification delivery evidence. | T12, T13 |
-| T15 | Local Gateway/CoreIOT synchronization | Huy and Khánh | NOT STARTED ([#35](https://github.com/Huyhuy225/AFES-2.0/issues/35)) | T08, onboarding, T11–T13 | Reconnect, ordered replay, deduplication, status synchronization, and authorized command round-trip tests. | T15 |
-| Hardware foundation | Minimal ESP32-S3 PlatformIO C++ project | Khánh | BLOCKED by hardware access ([#36](https://github.com/Huyhuy225/AFES-2.0/issues/36)) | Board access | Reproducible build, physical flash/boot log, safe defaults, physical MQTT telemetry record. | Foundation only (no scored claim yet) |
+| Item | Active interpretation | Owner | Status | Dependency | Required acceptance evidence |
+|---|---|---|---|---|---|
+| Stage A | Deterministic telemetry simulator and schema checks | Khánh (`@tranhoangkhanh-hkt`, activation pending) | DONE (SIMULATION) | None | Merged `simulation/` source, tests, fixtures, and [guide](docs/testing/STAGE_A_TELEMETRY_SIMULATOR.md). |
+| T08 | Local Gateway on PC/Raspberry Pi | Khánh | NOT STARTED ([#7](https://github.com/Huyhuy225/AFES-2.0/issues/7)) | Stage A | Automated ingest/validation tests, broker test, buffering/replay record, CLI and health/status endpoint. |
+| Onboarding | Secure CoreIOT project setup | Huy (`@Huyhuy225`) | BLOCKED ([#3](https://github.com/Huyhuy225/AFES-2.0/issues/3)) | Authorized tenant/project access | Redacted setup record, credential-handling procedure, device/gateway mapping, successful secure connection. |
+| T11 | CoreIOT native device template and dashboard | Ý (`@gutjmosnin`) | NOT STARTED ([#33](https://github.com/Huyhuy225/AFES-2.0/issues/33)) | Onboarding, gateway test feed | Importable configuration, bound widgets, telemetry/history display, remote-control test, screenshots labelled by evidence mode. |
+| T12 | CoreIOT RuleChain smart features | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | Onboarding, T11 telemetry | Exported RuleChain, reviewed thresholds, deterministic trigger/no-trigger tests. |
+| T13 | CoreIOT alarms and notifications | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | T12 | Alarm create/clear/acknowledge record and redacted notification delivery evidence. |
+| T15 | Local Gateway/CoreIOT synchronization | Huy and Khánh | NOT STARTED ([#35](https://github.com/Huyhuy225/AFES-2.0/issues/35)) | T08, onboarding, T11–T13 | Reconnect, ordered replay, deduplication, status synchronization, and authorized command round-trip tests. |
+| Hardware foundation | Minimal ESP32-S3 PlatformIO C++ project | Khánh | BLOCKED by hardware access ([#36](https://github.com/Huyhuy225/AFES-2.0/issues/36)) | Board access | Reproducible build, physical flash/boot log, safe defaults, physical MQTT telemetry record. |
 
 ## Not currently claimed
 
