@@ -30,7 +30,7 @@ In response to operator design feedback, this iteration refines the Stage A fron
      - **NORMAL**: Pastel Sage/Emerald (`#ecfdf5` background, `#a7f3d0` border, `#065f46` text) with `CheckCircle2` icon and "NORMAL" label.
      - **WARNING**: Pastel Amber (`#fffbeb` background, `#fde68a` border, `#92400e` text) with `AlertTriangle` icon and "WARNING" label.
      - **CRITICAL**: Pastel Rose/Coral (`#fef2f2` background, `#fecaca` border, `#991b1b` text) with `Flame` icon and "CRITICAL / FIRE ALARM" label.
-   - High text contrast complying with WCAG AA/AAA standards.
+   - Designed for readable, low-glare, high-contrast text and explicit labels/icons; formal accessibility audit remains pending.
 4. **Safety Invariant on Mutations Preserved**:
    - In explicit live mode (`VITE_USE_MOCK_DATA=false`), failed live mutations (`acknowledgeAlarm`, `resolveAlarm`, `dispatchControlCommand`) propagate errors directly and strictly never mutate mock state to simulate false success.
 

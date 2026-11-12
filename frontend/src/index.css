@@ -12,7 +12,7 @@
   --panel-border: #e2e8f0;      /* Clean soft grey border */
   --panel-hover-border: #cbd5e1;/* Slate 300 hover definition */
 
-  /* Calm, high-contrast typography (WCAG AA/AAA compliant) */
+  /* Calm, readable, high-contrast typography (formal accessibility audit pending) */
   --text-main: #0f172a;         /* Slate 900: Crisp primary heading & reading text */
   --text-muted: #334155;        /* Slate 700: High-legibility secondary text */
   --text-sub: #64748b;          /* Slate 500: Auxiliary metadata & units */
