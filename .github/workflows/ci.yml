@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - develop
-      - '**'
   pull_request:
     branches:
       - main
@@ -16,7 +15,7 @@ permissions:
 
 jobs:
   repository-hygiene:
-    name: Repository Hygiene & Governance Validation
+    name: Repository Hygiene
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -34,9 +33,12 @@ jobs:
           python -m pip install pyyaml
 
       - name: Validate YAML syntax
+        shell: python
         run: |
-          python -c "
-          import os, sys, glob, yaml
+          import glob
+          import sys
+          import yaml
+
           yaml_files = glob.glob('.github/**/*.yml', recursive=True) + glob.glob('.github/**/*.yaml', recursive=True)
           errors = 0
           for yf in yaml_files:
@@ -50,12 +52,12 @@ jobs:
           if errors > 0:
               sys.exit(1)
           print(f'Successfully validated {len(yaml_files)} YAML files.')
-          "
 
       - name: Validate repository whitespace and text hygiene
+        shell: python
         run: |
-          python -c "
-          import os, sys
+          import os
+
           errors = 0
           for root, dirs, files in os.walk('.'):
               if '.git' in dirs:
@@ -72,12 +74,14 @@ jobs:
                   except UnicodeDecodeError:
                       continue
           print('Whitespace and text hygiene check completed.')
-          "
 
       - name: Verify secrets hygiene
+        shell: python
         run: |
-          python -c "
-          import os, sys, base64, re
+          import base64
+          import os
+          import re
+          import sys
 
           # High-entropy token and key signatures (base64-encoded to prevent self-match on this workflow file)
           SIGNATURE_RULES = [
@@ -93,7 +97,7 @@ jobs:
           )
 
           CREDENTIAL_ASSIGNMENT_REGEX = re.compile(
-              r'(?i)^\s*(?:export\s+)?([A-Z0-9_]*(?:PASSWORD|SECRET|TOKEN|API_KEY|PRIVATE_KEY)[A-Z0-9_]*)\s*[:=]\s*[\"\'\']?([^\"\'\'\s#]+)[\"\'\']?'
+              r'(?i)^\s*(?:export\s+)?([A-Z0-9_]*(?:PASSWORD|SECRET|TOKEN|API_KEY|PRIVATE_KEY)[A-Z0-9_]*)\s*[:=]\s*["\']?([^"\'\s#]+)["\']?'
           )
 
           errors = 0
@@ -126,12 +130,13 @@ jobs:
           print(f'Secrets hygiene check passed across {scanned_count} scanned files (including CI workflow).')
           if errors > 0:
               sys.exit(1)
-          "
 
       - name: Verify governance baseline files exist
+        shell: python
         run: |
-          python -c "
-          import os, sys
+          import os
+          import sys
+
           required_files = [
               'CONTRIBUTING.md',
               'DEVELOPMENT_GUIDE.md',
@@ -145,7 +150,6 @@ jobs:
               print(f'ERROR: Missing required governance files: {missing}', file=sys.stderr)
               sys.exit(1)
           print('All required governance baseline files are present.')
-          "
 
       - name: Application Test Notice
         run: |
