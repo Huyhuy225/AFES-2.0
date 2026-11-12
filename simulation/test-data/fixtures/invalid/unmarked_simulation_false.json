@@ -1,0 +1,57 @@
+{
+  "schema_version": "2.0",
+  "message_id": "f8e43477-84bc-40d1-9252-78d102e3b2e9",
+  "correlation_id": null,
+  "device": {
+    "device_id": "ESP32S3-YOLO-01",
+    "device_type": "YOLO_UNO_S3",
+    "firmware_version": "2.0.0-prod",
+    "hardware_version": "ESP32-S3-DevKitC-1-v1.1",
+    "mac_address": "84:F7:03:1A:2B:3C"
+  },
+  "zone": {
+    "zone_id": "ZONE-101",
+    "room_code": "ROOM-101",
+    "building_id": "BLDG-CSE",
+    "floor_level": 1
+  },
+  "gateway": {
+    "gateway_id": "GW-LOCAL-RPI4",
+    "protocol": "ESP_NOW",
+    "mesh_role": "ENDPOINT"
+  },
+  "timestamps": {
+    "timestamp_utc": "2026-11-12T04:22:15.842Z",
+    "timestamp_epoch_ms": 1794457335842,
+    "device_uptime_s": 8421
+  },
+  "status": {
+    "system_state": "NORMAL",
+    "sensor_health": "HEALTHY",
+    "battery_pct": null,
+    "rssi_dbm": -68
+  },
+  "readings": {
+    "temperature": 29.4,
+    "humidity": 58.1,
+    "smoke_ppm": 145.0,
+    "smoke_raw_adc": 910,
+    "flame_detected": false,
+    "flame_raw_adc": 85,
+    "gas_co_ppm": 2.1,
+    "ai_inferred_fire_risk": 0.04,
+    "ai_classification": "NORMAL"
+  },
+  "actuators": {
+    "buzzer_active": false,
+    "alarm_led_active": false,
+    "water_pump_relay_active": false,
+    "exhaust_fan_active": false,
+    "override_mode": "AUTO"
+  },
+  "simulation": {
+    "is_simulated": false,
+    "scenario_id": null,
+    "synthetic_noise_added": false
+  }
+}

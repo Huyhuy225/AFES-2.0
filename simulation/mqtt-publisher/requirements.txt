@@ -1,0 +1,12 @@
+# ==============================================================================
+# AFES 2.0 Stage A Telemetry Simulator - Optional Runtime Dependency Manifest
+# ==============================================================================
+# NOTE:
+# - Offline telemetry generation (`--transport stdout` / `--transport memory`),
+#   offline JSON Schema + Stage A contract validation (`validate`), and the
+#   automated contract test suite (`simulation/tests/`) use ONLY the Python 3.11+
+#   standard library and require zero third-party packages.
+# - `paho-mqtt` is required ONLY when publishing to a live MQTT broker with
+#   `--transport mqtt`.
+# ==============================================================================
+paho-mqtt==2.1.0
