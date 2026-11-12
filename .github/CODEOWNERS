@@ -1,20 +1,17 @@
 # ==============================================================================
 # AFES 2.0 - Code Ownership Configuration
 # ==============================================================================
-# This file defines individuals or teams responsible for code review across
-# different areas of the repository.
+# This file defines code review ownership across repository subsystems.
 #
-# Primary Active Code Owner:
-# - Võ Quang Huy (@Huyhuy225)
+# Maintainers:
+# - Võ Quang Huy (@Huyhuy225): CoreIOT integration, Application Backend, DevOps
+# - Ý (@gutjmosnin): Frontend & Presentation Layer
 #
-# Pending Team Members / Future Code Owners:
-# - Khánh: Pending GitHub username confirmation (e.g., @pending-khanh-user)
-# - Ý: Pending GitHub username confirmation (e.g., @pending-y-user)
-# Note: As soon as official GitHub accounts are provisioned, replace the
-# pending placeholders below with actual handles.
+# Pending Maintainer:
+# - Khánh: Pending GitHub username confirmation (assigned to Firmware & Local Gateway)
 # ==============================================================================
 
-# Default rule: Global code owner for all files across the repository
+# Default fallback owner for all repository files
 * @Huyhuy225
 
 # Repository Governance & Documentation
@@ -25,18 +22,16 @@
 /.env.example @Huyhuy225
 /.gitignore @Huyhuy225
 
-# Domain Ownership Sections (Pending handles for Khánh and Ý)
+# Domain Ownership Assignments
 # ------------------------------------------------------------------------------
-# Embedded & Sensor Hardware (ESP32, Sensor drivers)
-# /firmware/ @Huyhuy225 # Pending co-owner: @<pending-khanh-user>
-# /hardware/ @Huyhuy225 # Pending co-owner: @<pending-khanh-user>
+# CoreIOT Platform Integration & Application Backend
+/coreiot/ @Huyhuy225
+/backend/ @Huyhuy225
 
-# Gateway, CoreIOT Integration & Networking
-# /gateway/ @Huyhuy225 # Pending co-owner: @<pending-y-user>
-# /coreiot/ @Huyhuy225 # Pending co-owner: @<pending-y-user>
+# Frontend & Presentation Layer
+/frontend/ @gutjmosnin
 
-# Backend Services & Emergency Response Engine
-# /backend/ @Huyhuy225
-
-# Frontend & Monitoring Dashboard
-# /frontend/ @Huyhuy225
+# Embedded Firmware & Local Gateway (Assigned to pending maintainer Khanh)
+# Note: Khanh's official GitHub handle is pending confirmation; @Huyhuy225 serves as interim active owner.
+/firmware/ @Huyhuy225 # Pending: Khanh (@pending-khanh)
+/local-gateway/ @Huyhuy225 # Pending: Khanh (@pending-khanh)

@@ -122,9 +122,9 @@ Fill out all sections of `.github/pull_request_template.md`:
 
 The repository maintains an authoritative `.github/CODEOWNERS` file:
 
-- **Primary Maintainer**: `@Huyhuy225` (reviews architecture, governance, backend, and cross-cutting changes).
-- **Pending Maintainer (Embedded / Sensors)**: **Khánh** (designated for ESP32 firmware, physical sensor drivers, and hardware calibration).
-- **Pending Maintainer (Gateway & CoreIOT)**: **Ý** (designated for local edge gateway, CoreIOT telemetry ingestion, and network protocols).
+- **Lead Maintainer**: `@Huyhuy225` (reviews architecture, governance, CoreIOT platform integration, and backend services).
+- **Frontend Maintainer**: `@gutjmosnin` (reviews frontend dashboards, UI components, and presentation layer).
+- **Pending Maintainer (Firmware & Local Gateway)**: **Khánh** (assigned to ESP32 firmware, physical sensor drivers, and local-gateway integration; handle pending confirmation).
 
 All contributors must respect code ownership boundaries. Do not bypass or self-merge pull requests.
 
