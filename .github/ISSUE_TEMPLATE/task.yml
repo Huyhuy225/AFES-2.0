@@ -1,0 +1,67 @@
+name: Task / Implementation Item
+description: Track a discrete technical task, DevOps setup, or documentation work
+title: "[TASK]: <short description>"
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for discrete implementation tasks, CI/CD configuration, refactoring, or documentation updates.
+
+  - type: input
+    id: course-id
+    attributes:
+      label: Course Requirement ID
+      description: Specify the relevant course requirement ID (e.g., T01 through T15) or "N/A (General Governance/DevOps)".
+      placeholder: "e.g., T01, T03, or N/A"
+    validations:
+      required: true
+
+  - type: input
+    id: linked-issues
+    attributes:
+      label: Linked / Related Issue(s)
+      description: Reference the parent issue, milestone, or dependent tasks.
+      placeholder: "e.g., #1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Task Summary & Scope
+      description: Detail the specific objectives, boundaries, and expected deliverables.
+      placeholder: Define the exact scope of this task.
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing-criteria
+    attributes:
+      label: Testing & Acceptance Criteria
+      description: Detail the criteria for completion and how each item will be validated (Simulation vs Hardware vs Static checks).
+      placeholder: |
+        - [ ] Acceptance Criterion 1: ...
+        - [ ] Validation Method: ... (Simulation / Hardware / Static analysis)
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs-and-screenshots
+    attributes:
+      label: Logs, Artifacts, or References
+      description: Include any relevant logs, schema links, or design references.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Submission Verification
+      options:
+        - label: The scope is strictly bounded to authorized files and modules.
+          required: true
+        - label: Changes will target `develop` via a PR-only workflow.
+          required: true
+        - label: No credentials or secrets are present.
+          required: true
