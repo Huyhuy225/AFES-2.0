@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: AFES 2.0 Contribution & Governance Guidelines
+    url: https://github.com/Huyhuy225/AFES-2.0/blob/develop/CONTRIBUTING.md
+    about: Read our contribution rules, branch naming conventions, and PR workflow.
+  - name: AFES 2.0 Development Guide
+    url: https://github.com/Huyhuy225/AFES-2.0/blob/develop/DEVELOPMENT_GUIDE.md
+    about: Read our local environment setup and simulation vs physical hardware testing guidance.

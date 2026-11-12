@@ -1,0 +1,42 @@
+# ==============================================================================
+# AFES 2.0 - Code Ownership Configuration
+# ==============================================================================
+# This file defines individuals or teams responsible for code review across
+# different areas of the repository.
+#
+# Primary Active Code Owner:
+# - Võ Quang Huy (@Huyhuy225)
+#
+# Pending Team Members / Future Code Owners:
+# - Khánh: Pending GitHub username confirmation (e.g., @pending-khanh-user)
+# - Ý: Pending GitHub username confirmation (e.g., @pending-y-user)
+# Note: As soon as official GitHub accounts are provisioned, replace the
+# pending placeholders below with actual handles.
+# ==============================================================================
+
+# Default rule: Global code owner for all files across the repository
+* @Huyhuy225
+
+# Repository Governance & Documentation
+/.github/ @Huyhuy225
+/docs/ @Huyhuy225
+/CONTRIBUTING.md @Huyhuy225
+/DEVELOPMENT_GUIDE.md @Huyhuy225
+/.env.example @Huyhuy225
+/.gitignore @Huyhuy225
+
+# Domain Ownership Sections (Pending handles for Khánh and Ý)
+# ------------------------------------------------------------------------------
+# Embedded & Sensor Hardware (ESP32, Sensor drivers)
+# /firmware/ @Huyhuy225 # Pending co-owner: @<pending-khanh-user>
+# /hardware/ @Huyhuy225 # Pending co-owner: @<pending-khanh-user>
+
+# Gateway, CoreIOT Integration & Networking
+# /gateway/ @Huyhuy225 # Pending co-owner: @<pending-y-user>
+# /coreiot/ @Huyhuy225 # Pending co-owner: @<pending-y-user>
+
+# Backend Services & Emergency Response Engine
+# /backend/ @Huyhuy225
+
+# Frontend & Monitoring Dashboard
+# /frontend/ @Huyhuy225
