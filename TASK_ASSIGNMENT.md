@@ -76,7 +76,7 @@ In alignment with the HCMUT course requirements and professional distributed eng
 | Wireless Peer Comms via ESP-NOW | **T06** (1.5 pts) | Firmware & Gateway Lead (Khánh) | Khánh | Huy | `NOT_STARTED` | M5 (Timing TBD) | `firmware/esp32-s3/src/comms/esp_now/` (Mesh Frame) |
 | Embedded On-Device Web Server | **T07** (1.0 pt) | Firmware & Gateway Lead (Khánh) | Khánh | Ý | `NOT_STARTED` | M5 (Timing TBD) | `firmware/esp32-s3/src/webserver/` (HTTP Diagnostics) |
 | Over-The-Air Firmware Updates | **T14** (2.0 pts) | Firmware & Gateway Lead (Khánh) | Khánh | Huy | `NOT_STARTED` | M5 (Timing TBD) | `firmware/esp32-s3/src/ota/` (CoreIOT OTA Client) |
-| Fullstack Event Recording App | **N06** (1.0 pt bonus) | Frontend Lead (Ý @gutjmosnin) | Ý | Huy | `IMPLEMENTED` | M4 (Timing TBD) | `frontend/src/` (Custom Web Dashboard) |
+| Fullstack Event Recording App | **N06** (1.0 pt bonus) | Frontend Lead (Ý @gutjmosnin) | Ý | Huy | `IN_PROGRESS` | M4 (Timing TBD) | `frontend/src/` (Custom Web Dashboard Baseline) |
 | Local ThingsBoard Instance (Optional) | **N07** (1.0 pt bonus) | Arch & Backend Lead (Huy) | Huy | Khánh | `NOT_STARTED` | M4 (Timing TBD) | `docker-compose.thingsboard.yml` (Explicitly optional bonus item; not an assumed CoreIOT implementation) |
 | Measurement, Lab Testing & Demo | Course Evaluation | All Leads | Entire Team | Huy | `NOT_STARTED` | M6 (Timing TBD) | Demo Video (5–10 min) & Lab Evidence Logs |
 | Final Course Report Formulation | Course Evaluation | Arch & Backend Lead (Huy) | Entire Team | Huy | `NOT_STARTED` | M6 (Timing TBD) | `[ClassCode]_[GroupCode]_IoTReport.pdf` |

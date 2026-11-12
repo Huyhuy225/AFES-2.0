@@ -260,6 +260,13 @@ export const ControlConsole = ({
                   <div key={entry.id} className="audit-entry">
                     <div className="audit-entry-top">
                       <span className="audit-action">{entry.action}</span>
+                      <span
+                        className={`audit-status-tag ${
+                          entry.status === 'FAILED' ? 'audit-status--failed' : 'audit-status--success'
+                        }`}
+                      >
+                        {entry.status}
+                      </span>
                       <span className="audit-time">{entry.time}</span>
                     </div>
                     <div className="audit-entry-msg">{entry.message}</div>

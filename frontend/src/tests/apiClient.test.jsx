@@ -94,4 +94,76 @@ describe('ApiService & MockStateStore Unit Tests', () => {
     const resetZ101 = resetZones.find((z) => z.zone_id === 'ZONE-101');
     expect(resetZ101.system_state).toBe(SYSTEM_STATES.NORMAL);
   });
+
+  describe('Live Mode Safety & Mutation Error Propagation Tests', () => {
+    it('in explicit live mode, never falls back to mockStore on acknowledgeAlarm failure', async () => {
+      apiService.setMockMode(false);
+      const originalFetch = global.fetch;
+      global.fetch = async () => {
+        throw new Error('500 Internal Server Error: Gateway connection refused');
+      };
+
+      try {
+        await expect(
+          apiService.acknowledgeAlarm('evt-smoke-102-001', 'Operator notes')
+        ).rejects.toThrow(/Gateway connection refused/);
+
+        // Verify that mockStore was NOT mutated to fake success
+        apiService.setMockMode(true);
+        const alarms = await apiService.getActiveAlarms();
+        const target = alarms.find((a) => a.event_id === 'evt-smoke-102-001');
+        expect(target.ack_status).toBe('PENDING');
+      } finally {
+        global.fetch = originalFetch;
+      }
+    });
+
+    it('in explicit live mode, never falls back to mockStore on resolveAlarm failure', async () => {
+      apiService.setMockMode(false);
+      const originalFetch = global.fetch;
+      global.fetch = async () => {
+        throw new Error('502 Bad Gateway: CoreIOT unreachable');
+      };
+
+      try {
+        await expect(
+          apiService.resolveAlarm('evt-smoke-102-001')
+        ).rejects.toThrow(/CoreIOT unreachable/);
+
+        // Verify that mockStore was NOT mutated to fake success
+        apiService.setMockMode(true);
+        const alarms = await apiService.getActiveAlarms();
+        const target = alarms.find((a) => a.event_id === 'evt-smoke-102-001');
+        expect(target).toBeDefined();
+        expect(target.ack_status).not.toBe('RESOLVED');
+      } finally {
+        global.fetch = originalFetch;
+      }
+    });
+
+    it('in explicit live mode, never falls back to mockStore on dispatchControlCommand failure', async () => {
+      apiService.setMockMode(false);
+      const originalFetch = global.fetch;
+      global.fetch = async () => {
+        throw new Error('504 Gateway Timeout: Node offline');
+      };
+
+      try {
+        await expect(
+          apiService.dispatchControlCommand({
+            target_zone_id: 'ZONE-101',
+            action: ACTUATOR_ACTIONS.PUMP_ON,
+          })
+        ).rejects.toThrow(/Node offline/);
+
+        // Verify that mockStore pump state was NOT mutated to true
+        apiService.setMockMode(true);
+        const zones = await apiService.getZonesSummary();
+        const z101 = zones.find((z) => z.zone_id === 'ZONE-101');
+        expect(z101.actuator_state.pump_active).toBe(false);
+      } finally {
+        global.fetch = originalFetch;
+      }
+    });
+  });
 });

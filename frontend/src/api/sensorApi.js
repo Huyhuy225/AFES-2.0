@@ -367,15 +367,12 @@ class ApiService {
       await new Promise((r) => setTimeout(r, 80));
       return mockStore.acknowledgeAlarm(alarmId, note);
     }
-    try {
-      return await this._fetch(`/alarms/${alarmId}/acknowledge`, {
-        method: 'POST',
-        body: JSON.stringify({ note: note || 'Acknowledged by operator' }),
-      });
-    } catch (err) {
-      console.warn('Backend unavailable, acknowledging in mock state', err.message);
-      return mockStore.acknowledgeAlarm(alarmId, note);
-    }
+    // Explicit live mode: invoke backend REST directly.
+    // Safety Invariant: NEVER fall back to mockStore on mutation failure; propagate error directly.
+    return await this._fetch(`/alarms/${alarmId}/acknowledge`, {
+      method: 'POST',
+      body: JSON.stringify({ note: note || 'Acknowledged by operator' }),
+    });
   }
 
   async resolveAlarm(alarmId) {
@@ -383,14 +380,11 @@ class ApiService {
       await new Promise((r) => setTimeout(r, 80));
       return mockStore.resolveAlarm(alarmId);
     }
-    try {
-      return await this._fetch(`/alarms/${alarmId}/resolve`, {
-        method: 'POST',
-      });
-    } catch (err) {
-      console.warn('Backend unavailable, resolving in mock state', err.message);
-      return mockStore.resolveAlarm(alarmId);
-    }
+    // Explicit live mode: invoke backend REST directly.
+    // Safety Invariant: NEVER fall back to mockStore on mutation failure; propagate error directly.
+    return await this._fetch(`/alarms/${alarmId}/resolve`, {
+      method: 'POST',
+    });
   }
 
   async dispatchControlCommand(payload) {
@@ -398,15 +392,12 @@ class ApiService {
       await new Promise((r) => setTimeout(r, 100));
       return mockStore.dispatchCommand(payload);
     }
-    try {
-      return await this._fetch('/control/command', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      });
-    } catch (err) {
-      console.warn('Backend unavailable, dispatching command in mock state', err.message);
-      return mockStore.dispatchCommand(payload);
-    }
+    // Explicit live mode: invoke backend REST directly.
+    // Safety Invariant: NEVER fall back to mockStore on mutation failure; propagate error directly.
+    return await this._fetch('/control/command', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
   }
 
   startSimulationScenario(scenarioId) {

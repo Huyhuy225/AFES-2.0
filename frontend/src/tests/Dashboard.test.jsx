@@ -107,4 +107,33 @@ describe('Dashboard Component Integration Tests', () => {
       expect(screen.getByText('Switch to Mock Simulator')).toBeInTheDocument();
     });
   });
+
+  it('displays error banner when live alarm acknowledgment fails without simulating success', async () => {
+    render(<Dashboard />);
+
+    // Go to alarms tab
+    fireEvent.click(screen.getByTestId('tab-alarms'));
+    await waitFor(() => {
+      expect(screen.getByTestId('btn-ack-evt-smoke-102-001')).toBeInTheDocument();
+    });
+
+    // Mock acknowledgeAlarm to reject
+    const originalAcknowledge = apiService.acknowledgeAlarm.bind(apiService);
+    apiService.acknowledgeAlarm = async () => {
+      throw new Error('Connection refused: Backend REST offline');
+    };
+
+    try {
+      fireEvent.click(screen.getByTestId('btn-ack-evt-smoke-102-001'));
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).toBeInTheDocument();
+        expect(screen.getByText(/Alarm acknowledgment failed/i)).toBeInTheDocument();
+        // Alarm must NOT be acknowledged
+        expect(screen.queryByText('ACKNOWLEDGED')).not.toBeInTheDocument();
+      });
+    } finally {
+      apiService.acknowledgeAlarm = originalAcknowledge;
+    }
+  });
 });

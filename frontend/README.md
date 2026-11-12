@@ -4,7 +4,7 @@
 > **Course Project**: Internet of Things (IoT) – Semester 261 (Academic Year 2026–2027)
 > **Institution**: Ho Chi Minh City University of Technology (HCMUT), VNU-HCM
 > **Responsible Lead**: Ý ([@gutjmosnin](https://github.com/gutjmosnin)) – Role 3: Frontend Engineering
-> **Course Requirement**: Advanced Bonus Feature **N06** (Custom-designed dashboard able to detect and record events)
+> **Course Requirement**: Advanced Bonus Feature **N06** (Status: **IN_PROGRESS** – Stage A Monitoring Baseline Established)
 > **Target Base**: React 18 + Vite + Vitest
 
 ---
@@ -17,14 +17,17 @@ The **AFES 2.0 Monitoring Dashboard Baseline** implements the Tier 5 presentatio
 1. **Zero-Trust CoreIOT Credential Boundary**:
    * Web browsers **never** communicate directly with the CoreIOT server using administrative tokens, device access tokens, or platform credentials.
    * All dashboard operations are mediated through the Spring Boot application backend (`/api/v2`).
-2. **Preservation of Platform Boundary (N06 vs T11)**:
-   * This module fulfills **N06** (Custom-designed dashboard able to detect and record events).
-   * It **does not substitute or claim** the separate CoreIOT Platform Dashboard requirement (**T11**), which is configured natively on the CoreIOT tenant.
+2. **Preservation of Platform Boundary & Traceability (N06 vs T11)**:
+   * This baseline advances **N06** (Custom-designed dashboard able to detect and record events) to status `IN_PROGRESS`.
+   * Current baseline establishes the React 18 + Vite monitoring UI shell, zone safety states, telemetry trends, live/mock data handling, and active alarm triage.
+   * Full completion of N06 remains pending backend event persistence (database event recording via Spring Boot `/api/v2/alarms`) and the interactive 2D facility floorplan scheduled for Milestone 4.
+   * This module **does not substitute or claim** the separate CoreIOT Platform Dashboard requirement (**T11**), which is configured natively on the CoreIOT tenant.
 3. **Dual-Stage Lifecycle (Stage A Virtual Simulation)**:
    * During Stage A, all metrics, edge node health states, and synthetic alerts carry the visual badge `[SIMULATED - STAGE A]` to prevent premature claims of physical hardware integration.
 4. **Dual Data Mode & Edge Autonomy**:
    * Operates against live Spring Boot `/api/v2` endpoints when available.
    * Provides an integrated in-browser Stage A mock simulator fallback for standalone testing, emergency drill demonstrations, and offline verification.
+   * **Safety Invariant on Mutations**: In explicit live mode, failed alarm acknowledgments, resolutions, or actuator control commands never fake success in the mock store; errors are propagated directly to the UI.
 
 ---
 

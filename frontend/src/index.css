@@ -1440,6 +1440,24 @@ body {
   color: var(--accent-blue);
 }
 
+.audit-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+.audit-status--success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.audit-status--failed {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
 .audit-time {
   color: var(--text-sub);
 }

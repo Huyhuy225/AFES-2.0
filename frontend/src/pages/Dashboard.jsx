@@ -85,7 +85,10 @@ export const Dashboard = () => {
       await apiService.acknowledgeAlarm(alarmId, 'Acknowledged via NOC Dashboard');
       await fetchDashboardData();
     } catch (err) {
-      setError({ message: `Acknowledge failed: ${err.message}` });
+      setError({
+        message: `Alarm acknowledgment failed: ${err.message}`,
+        code: err.code || 'ERR_MUTATION_FAILED',
+      });
     } finally {
       setIsActing(false);
     }
@@ -97,7 +100,10 @@ export const Dashboard = () => {
       await apiService.resolveAlarm(alarmId);
       await fetchDashboardData();
     } catch (err) {
-      setError({ message: `Resolve failed: ${err.message}` });
+      setError({
+        message: `Alarm resolution failed: ${err.message}`,
+        code: err.code || 'ERR_MUTATION_FAILED',
+      });
     } finally {
       setIsActing(false);
     }
@@ -109,6 +115,12 @@ export const Dashboard = () => {
       const result = await apiService.dispatchControlCommand(payload);
       await fetchDashboardData();
       return result;
+    } catch (err) {
+      setError({
+        message: `Actuator command dispatch failed: ${err.message}`,
+        code: err.code || 'ERR_MUTATION_FAILED',
+      });
+      throw err;
     } finally {
       setIsActing(false);
     }
