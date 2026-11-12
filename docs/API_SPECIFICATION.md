@@ -327,7 +327,7 @@ Issues a synchronized reset command (`RESET_ALERTS`) that safely unlatches alert
 
 ### 4.7. Local Gateway & CoreIOT Synchronization
 
-#### `POST /api/v2/gateway/heartbeat`
+#### `POST /api/v2/local-gateway/heartbeat`
 Reports Local Gateway operational health, interface states, and sync metrics.
 * **Access**: `ROLE_GATEWAY`
 * **Request Body**:

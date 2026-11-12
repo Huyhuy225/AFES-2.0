@@ -68,7 +68,7 @@ All technical specifications, contracts, and requirement matrices are fully docu
 
 * **[COURSE_REQUIREMENTS.md](COURSE_REQUIREMENTS.md)**: Official HCMUT Course Project traceability matrix covering all required technology elements (**T01–T15**) and bonus features (**N01–N07**), with points, statuses, owners, test procedures, and completion criteria.
 * **[ARCHITECTURE.md](ARCHITECTURE.md)**: Granular architectural blueprint detailing the five system tiers, fail-safe edge autonomy loops, bidirectional RPC command sequences, and Stage A / Stage B separation.
-* **[TASK_ASSIGNMENT.md](TASK_ASSIGNMENT.md)**: Team organization, role responsibilities, milestone schedules (Weeks 10–16), multi-agent pairing workflows, and contribution policies.
+* **[TASK_ASSIGNMENT.md](TASK_ASSIGNMENT.md)**: Team organization, role responsibilities, milestone schedules (timing TBD), multi-agent pairing workflows, and contribution policies.
 * **[docs/ORIGINAL_AFES_ANALYSIS.md](docs/ORIGINAL_AFES_ANALYSIS.md)**: Factual technical audit of the original AFES legacy codebase, identifying protocol mismatches, symmetric encryption overhead, reset command defects, and absent course components.
 * **[docs/TELEMETRY_SCHEMA.md](docs/TELEMETRY_SCHEMA.md)**: Formal, versioned (v2.0.0) JSON Schema and MQTT topic specifications covering payload envelopes, sensor readings, alarm events, RPC downlinks, simulation markers, and the primary Local Gateway path, with CoreIOT vendor mappings deferred to Issue #3.
 * **[docs/API_SPECIFICATION.md](docs/API_SPECIFICATION.md)**: Backend REST and WebSocket API specification defining RBAC expectations, error contracts, spatial zone management, and strict browser isolation from CoreIOT credentials.
@@ -77,15 +77,15 @@ All technical specifications, contracts, and requirement matrices are fully docu
 
 ## 3. Two-Stage Execution Lifecycle
 
-To guarantee rigorous engineering standards and eliminate unverified assumptions, AFES 2.0 enforces a strict two-stage implementation lifecycle aligned with the official course schedule (Weeks 10–16):
+To guarantee rigorous engineering standards and eliminate unverified assumptions, AFES 2.0 enforces a strict two-stage implementation lifecycle (timing TBD):
 
-### Stage A: Virtual Simulation & Contract Validation (Weeks 10–13)
+### Stage A: Virtual Simulation & Contract Validation (Timing TBD)
 * **Goal**: Validate end-to-end data pipelines, API contracts, CoreIOT RuleChains, and gateway aggregation using software-simulated sensor nodes.
 * **Telemetry Marker**: All Stage A data packets carry `simulation.is_simulated = true`.
 * **Verification**: Unit tests, schema validators, mock MQTT brokers, and synthetic fire progression scenarios. No physical hardware claims are made in Stage A.
 
-### Stage B: Physical Deployment & Hardware Verification (Weeks 14–16)
-* **Goal**: Commission physical ESP32-S3 (YoloUNO) boards, wire Modbus RS485 and I2C sensors, deploy Local Gateways on physical PC/Raspberry Pi hardware, and perform live lab measurements.
+### Stage B: Physical Deployment & Hardware Verification (Timing TBD)
+* **Goal**: Commission physical ESP32-S3 (YoloUNO) boards, wire Modbus RS485 and I2C sensors, deploy Local Gateways on physical PC/Raspberry Pi hardware (`local-gateway/`), and perform live lab measurements.
 * **Telemetry Marker**: Real-time production packets carry `simulation.is_simulated = false`.
 * **Verification**: Serial console traces, oscilloscope/logic analyzer logs, laboratory smoke chamber tests, and a recorded 5–10 minute demonstration video.
 
@@ -97,12 +97,12 @@ The project architecture natively accommodates the full spectrum of required cou
 
 | Category | Elements | Target Implementation Tier | Assigned Lead |
 |---|---|---|---|
-| **Group 1: Sensors** | **T01** (I2C / Tasmota), **T02** (Modbus RS485), **T03** (BLE) | Tier 1 (ESP32-S3 Nodes) | Khánh (Embedded Lead) |
-| **Group 2: TinyML** | **T04** (On-Device Inference), **T05** (Training Tooling Pipeline) | Tier 1 (ESP32-S3) & `tools/` | Khánh (Embedded Lead) |
-| **Group 3: Local Comms** | **T06** (ESP-NOW Wireless), **T07** (On-Device Web Server) | Tier 1 (ESP32-S3 Nodes) | Khánh (Embedded Lead) |
-| **Group 4: Local Gateway** | **T08** (PC/Pi Gateway), **T09** (Edge AI), **T10** (Gateway UI) | Tier 2 (Local IoT Gateway) | Ý (Gateway Lead) |
-| **Group 5: CoreIOT Platform** | **T11** (Templates/Dashboards), **T12** (RuleChains), **T13** (Alerts), **T14** (OTA), **T15** (Gateway Sync) | Tier 3 (CoreIOT Platform) | Ý (Gateway Lead) [Issue #3] |
-| **Bonus Features** | **N01** (LLM Assistant), **N06** (Custom Event Dashboard), **N07** (Local ThingsBoard) | Tiers 3, 4, 5 | Huy (Fullstack Lead) / Team |
+| **Group 1: Sensors** | **T01** (I2C / Tasmota), **T02** (Modbus RS485), **T03** (BLE) | Tier 1 (ESP32-S3 Nodes) | Khánh (Firmware & Local Gateway Lead) |
+| **Group 2: TinyML** | **T04** (On-Device Inference), **T05** (Training Tooling Pipeline) | Tier 1 (ESP32-S3) & `tools/` | Khánh (Firmware & Local Gateway Lead) |
+| **Group 3: Local Comms** | **T06** (ESP-NOW Wireless), **T07** (On-Device Web Server) | Tier 1 (ESP32-S3 Nodes) | Khánh (Firmware & Local Gateway Lead) |
+| **Group 4: Local Gateway** | **T08** (PC/Pi Gateway), **T09** (Edge AI), **T10** (Gateway UI) | Tier 2 (`local-gateway/`) | Khánh (Firmware & Local Gateway Lead) |
+| **Group 5: CoreIOT Platform** | **T11** (Templates/Dashboards), **T12** (RuleChains), **T13** (Alerts), **T14** (OTA), **T15** (Gateway Sync) | Tier 3 (CoreIOT Platform) | Huy (Arch & Backend Lead) [Issue #3] |
+| **Bonus Features** | **N01** (LLM Assistant), **N06** (Custom Event Dashboard), **N07** (Optional Local ThingsBoard) | Tiers 3, 4, 5 | Ý (@gutjmosnin) for UI; Huy for N07 optional bonus |
 
 ---
 

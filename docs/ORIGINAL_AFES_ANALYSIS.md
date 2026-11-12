@@ -198,7 +198,7 @@ The HCMUT IoT Course Syllabus (Semester 261) specifies fifteen required technolo
 ## 7. Migration Recommendations for AFES 2.0
 
 1. **Adopt Open Telemetry Schema**: Deprecate custom per-field AES encryption in favor of standard TLS transport security and open JSON schema envelopes (`[TELEMETRY_SCHEMA.md](TELEMETRY_SCHEMA.md)`).
-2. **Implement Local IoT Gateway Tier**: Create a standalone Python or Node-based Local Gateway service (`gateway/`) capable of aggregating local sensor traffic, running edge AI anomaly detection, buffering data during network outages, and interfacing with CoreIOT.
+2. **Implement Local IoT Gateway Tier**: Create a standalone Python or Node-based Local Gateway service (`local-gateway/`) capable of aggregating local sensor traffic, running edge AI anomaly detection, buffering data during network outages, and interfacing with CoreIOT.
 3. **CoreIOT Platform Integration**: Provision CoreIOT device profiles, telemetry mappings, RuleChains for automated alarms, and dashboards mapping to requirements T11–T15 (with exact platform onboarding and credential procedures deferred to Issue #3).
 4. **Secure Backend Proxy Pattern**: Re-engineer the Spring Boot backend to act strictly as a secure business facade and RBAC provider. Browser frontends must never directly hold CoreIOT administrative credentials.
 5. **Stage A / Stage B Decoupling**: Build robust virtual simulation nodes with the `is_simulated` marker to enable end-to-end testing and contract verification before deploying physical ESP32-S3 hardware.
