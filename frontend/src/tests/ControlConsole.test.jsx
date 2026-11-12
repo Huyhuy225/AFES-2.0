@@ -25,6 +25,7 @@ describe('ControlConsole Component Tests', () => {
     expect(screen.getByTestId('btn-test-alarm')).toBeInTheDocument();
     expect(screen.getByTestId('btn-reset-system')).toBeInTheDocument();
     expect(screen.getByTestId('btn-emergency-shutdown')).toBeInTheDocument();
+    expect(screen.getByTestId('btn-sim-warning')).toBeInTheDocument();
     expect(screen.getByTestId('btn-sim-fire')).toBeInTheDocument();
     expect(screen.getByTestId('btn-sim-reset')).toBeInTheDocument();
   });
@@ -70,6 +71,9 @@ describe('ControlConsole Component Tests', () => {
         zones={mockZones}
       />
     );
+
+    fireEvent.click(screen.getByTestId('btn-sim-warning'));
+    expect(startMock).toHaveBeenCalledWith('WARNING_SMOKE_ZONE_102');
 
     fireEvent.click(screen.getByTestId('btn-sim-fire'));
     expect(startMock).toHaveBeenCalledWith('FIRE_SPIKE_ZONE_101');

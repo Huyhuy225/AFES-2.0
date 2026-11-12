@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "message_id": "c1f3b392-563b-4866-9e67-d86bfa2549a1",
+  "correlation_id": null,
+  "device": {
+    "device_id": "SIM-ESP32-101",
+    "device_type": "VIRTUAL_SIM_NODE",
+    "firmware_version": "2.0.0-sim",
+    "hardware_version": "SIM-v2",
+    "mac_address": "02:00:00:AA:BB:01"
+  },
+  "zone": {
+    "zone_id": "ZONE-101",
+    "room_code": "ROOM-101",
+    "building_id": "BLDG-CSE",
+    "floor_level": 1
+  },
+  "gateway": {
+    "gateway_id": "GW-LOCAL-PC01",
+    "protocol": "MQTT",
+    "mesh_role": "ENDPOINT"
+  },
+  "timestamps": {
+    "timestamp_utc": "2026-11-12T04:20:00.000Z",
+    "timestamp_epoch_ms": 1794457200000,
+    "device_uptime_s": 3600
+  },
+  "status": {
+    "system_state": "NORMAL",
+    "sensor_health": "HEALTHY",
+    "battery_pct": null,
+    "rssi_dbm": -55
+  },
+  "readings": {
+    "temperature": 27.8,
+    "humidity": 62.4,
+    "smoke_ppm": 120.3,
+    "smoke_raw_adc": 820,
+    "flame_detected": false,
+    "flame_raw_adc": 110,
+    "gas_co_ppm": 4.2,
+    "ai_inferred_fire_risk": 0.02,
+    "ai_classification": "NORMAL"
+  },
+  "actuators": {
+    "buzzer_active": false,
+    "alarm_led_active": false,
+    "water_pump_relay_active": false,
+    "exhaust_fan_active": false,
+    "override_mode": "AUTO"
+  },
+  "simulation": {
+    "is_simulated": true,
+    "scenario_id": "STAGE_A_SIM_NORMAL_BASELINE",
+    "synthetic_noise_added": true
+  }
+}

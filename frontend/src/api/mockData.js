@@ -40,17 +40,17 @@ export const createInitialZones = () => [
     room_code: 'ROOM-102',
     name: 'High-Density Battery Vault',
     floor: 1,
-    system_state: SYSTEM_STATES.WARNING,
-    active_alarm_count: 1,
+    system_state: SYSTEM_STATES.NORMAL,
+    active_alarm_count: 0,
     latest_readings: {
-      temperature: 46.8,
-      humidity: 39.5,
-      smoke_ppm: 512.0,
+      temperature: 23.8,
+      humidity: 44.5,
+      smoke_ppm: 28.0,
       flame_detected: false,
-      ai_inferred_fire_risk: 0.58,
+      ai_inferred_fire_risk: 0.03,
     },
     actuator_state: {
-      buzzer_active: true,
+      buzzer_active: false,
       pump_active: false,
     },
     node_count: 1,
@@ -126,7 +126,7 @@ export const createInitialDevices = () => [
     firmware_version: '2.1.0-stageA',
     hardware_version: 'v1.2',
     status: DEVICE_STATUS.ONLINE,
-    sensor_health: SENSOR_HEALTH.DEGRADED,
+    sensor_health: SENSOR_HEALTH.HEALTHY,
     rssi_dbm: -71,
     uptime_seconds: 95400,
     heap_free_bytes: 182300,
@@ -168,35 +168,8 @@ export const createInitialDevices = () => [
   },
 ];
 
-// Initial baseline mock alarms
-export const createInitialAlarms = () => [
-  {
-    event_id: 'evt-smoke-102-001',
-    timestamp_utc: new Date(Date.now() - 180000).toISOString(),
-    timestamp_epoch_ms: Date.now() - 180000,
-    device_id: 'ESP32S3-YOLO-02',
-    zone_id: 'ZONE-102',
-    room_code: 'ROOM-102',
-    event_type: EVENT_TYPES.SMOKE_THRESHOLD_WARNING,
-    severity: EVENT_SEVERITY.WARNING,
-    trigger_source: 'MQ2_ANALOG_THRESHOLD',
-    trigger_details: {
-      temperature_c: 46.8,
-      temperature_threshold_c: 50.0,
-      smoke_ppm: 512.0,
-      smoke_threshold_ppm: 500.0,
-      flame_detected: false,
-      tinyml_fire_confidence: 0.58,
-    },
-    autonomous_actions_taken: ['LOCAL_BUZZER_ACTIVE'],
-    ack_required: true,
-    ack_status: 'PENDING',
-    simulation: {
-      is_simulated: true,
-      scenario_id: 'STAGE_A_BASELINE_TEST',
-    },
-  },
-];
+// Initial baseline mock alarms: Empty on initial Stage A mock load (neutral baseline)
+export const createInitialAlarms = () => [];
 
 // Generate synthetic historical telemetry series
 export const generateMockTelemetryHistory = (pointsCount = 20) => {

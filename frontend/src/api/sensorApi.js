@@ -225,6 +225,59 @@ class MockStateStore {
         ai_inferred_fire_risk: 0.96,
         is_simulated: true,
       });
+    } else if (scenarioId === 'WARNING_SMOKE_ZONE_102') {
+      const z102 = this.zones.find((z) => z.zone_id === 'ZONE-102');
+      if (z102) {
+        z102.system_state = SYSTEM_STATES.WARNING;
+        z102.active_alarm_count += 1;
+        z102.latest_readings = {
+          temperature: 36.5,
+          humidity: 41.0,
+          smoke_ppm: 535.0,
+          flame_detected: false,
+          ai_inferred_fire_risk: 0.58,
+        };
+        z102.actuator_state.buzzer_active = true;
+      }
+
+      const newAlarm = {
+        event_id: `evt-warn-${Date.now()}`,
+        timestamp_utc: new Date().toISOString(),
+        timestamp_epoch_ms: Date.now(),
+        device_id: 'ESP32S3-YOLO-02',
+        zone_id: 'ZONE-102',
+        room_code: 'ROOM-102',
+        event_type: EVENT_TYPES.SMOKE_THRESHOLD_WARNING,
+        severity: EVENT_SEVERITY.WARNING,
+        trigger_source: 'MQ2_ANALOG_THRESHOLD',
+        trigger_details: {
+          temperature_c: 36.5,
+          temperature_threshold_c: 50.0,
+          smoke_ppm: 535.0,
+          smoke_threshold_ppm: 500.0,
+          flame_detected: false,
+          tinyml_fire_confidence: 0.58,
+        },
+        autonomous_actions_taken: ['LOCAL_BUZZER_ACTIVE'],
+        ack_required: true,
+        ack_status: 'PENDING',
+        simulation: {
+          is_simulated: true,
+          scenario_id: 'WARNING_SMOKE_ZONE_102',
+        },
+      };
+      this.alarms.unshift(newAlarm);
+
+      this.telemetryHistory.push({
+        timestamp_epoch_ms: Date.now(),
+        timestamp_iso: new Date().toISOString(),
+        temperature: 36.5,
+        smoke_ppm: 535.0,
+        humidity: 41.0,
+        flame_detected: false,
+        ai_inferred_fire_risk: 0.58,
+        is_simulated: true,
+      });
     }
   }
 

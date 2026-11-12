@@ -31,7 +31,13 @@ describe('ApiService & MockStateStore Unit Tests', () => {
     expect(online.length).toBe(3);
   });
 
-  it('retrieves active alarms and acknowledges an alarm', async () => {
+  it('verifies neutral default alarm state and acknowledges an injected alarm', async () => {
+    // Default Stage A mock load contains no active alarms
+    const defaultAlarms = await apiService.getActiveAlarms();
+    expect(defaultAlarms.length).toBe(0);
+
+    // Deliberately trigger simulation incident
+    apiService.startSimulationScenario('FIRE_SPIKE_ZONE_101');
     const alarms = await apiService.getActiveAlarms();
     expect(alarms.length).toBeGreaterThan(0);
 
@@ -42,6 +48,7 @@ describe('ApiService & MockStateStore Unit Tests', () => {
   });
 
   it('resolves an alarm and updates zone state if cleared', async () => {
+    apiService.startSimulationScenario('FIRE_SPIKE_ZONE_101');
     const alarms = await apiService.getActiveAlarms();
     const targetId = alarms[0].event_id;
 
@@ -95,8 +102,31 @@ describe('ApiService & MockStateStore Unit Tests', () => {
     expect(resetZ101.system_state).toBe(SYSTEM_STATES.NORMAL);
   });
 
+  it('triggers simulation warning scenario and verifies warning state in zone 102', async () => {
+    apiService.startSimulationScenario('WARNING_SMOKE_ZONE_102');
+
+    const zones = await apiService.getZonesSummary();
+    const z102 = zones.find((z) => z.zone_id === 'ZONE-102');
+    expect(z102.system_state).toBe(SYSTEM_STATES.WARNING);
+    expect(z102.latest_readings.smoke_ppm).toBeGreaterThan(500);
+
+    const alarms = await apiService.getActiveAlarms();
+    const warnAlarm = alarms.find((a) => a.severity === 'WARNING');
+    expect(warnAlarm).toBeDefined();
+
+    apiService.stopSimulationScenario();
+    const resetZones = await apiService.getZonesSummary();
+    const resetZ102 = resetZones.find((z) => z.zone_id === 'ZONE-102');
+    expect(resetZ102.system_state).toBe(SYSTEM_STATES.NORMAL);
+  });
+
   describe('Live Mode Safety & Mutation Error Propagation Tests', () => {
     it('in explicit live mode, never falls back to mockStore on acknowledgeAlarm failure', async () => {
+      // Inject simulated alarm first
+      apiService.startSimulationScenario('WARNING_SMOKE_ZONE_102');
+      const activeAlarms = await apiService.getActiveAlarms();
+      const testAlarmId = activeAlarms[0].event_id;
+
       apiService.setMockMode(false);
       const originalFetch = global.fetch;
       global.fetch = async () => {
@@ -105,13 +135,13 @@ describe('ApiService & MockStateStore Unit Tests', () => {
 
       try {
         await expect(
-          apiService.acknowledgeAlarm('evt-smoke-102-001', 'Operator notes')
+          apiService.acknowledgeAlarm(testAlarmId, 'Operator notes')
         ).rejects.toThrow(/Gateway connection refused/);
 
         // Verify that mockStore was NOT mutated to fake success
         apiService.setMockMode(true);
         const alarms = await apiService.getActiveAlarms();
-        const target = alarms.find((a) => a.event_id === 'evt-smoke-102-001');
+        const target = alarms.find((a) => a.event_id === testAlarmId);
         expect(target.ack_status).toBe('PENDING');
       } finally {
         global.fetch = originalFetch;
@@ -119,6 +149,11 @@ describe('ApiService & MockStateStore Unit Tests', () => {
     });
 
     it('in explicit live mode, never falls back to mockStore on resolveAlarm failure', async () => {
+      // Inject simulated alarm first
+      apiService.startSimulationScenario('WARNING_SMOKE_ZONE_102');
+      const activeAlarms = await apiService.getActiveAlarms();
+      const testAlarmId = activeAlarms[0].event_id;
+
       apiService.setMockMode(false);
       const originalFetch = global.fetch;
       global.fetch = async () => {
@@ -127,13 +162,13 @@ describe('ApiService & MockStateStore Unit Tests', () => {
 
       try {
         await expect(
-          apiService.resolveAlarm('evt-smoke-102-001')
+          apiService.resolveAlarm(testAlarmId)
         ).rejects.toThrow(/CoreIOT unreachable/);
 
         // Verify that mockStore was NOT mutated to fake success
         apiService.setMockMode(true);
         const alarms = await apiService.getActiveAlarms();
-        const target = alarms.find((a) => a.event_id === 'evt-smoke-102-001');
+        const target = alarms.find((a) => a.event_id === testAlarmId);
         expect(target).toBeDefined();
         expect(target.ack_status).not.toBe('RESOLVED');
       } finally {
