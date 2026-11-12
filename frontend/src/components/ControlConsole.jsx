@@ -226,12 +226,22 @@ export const ControlConsole = ({
             <div className="sim-buttons">
               <button
                 type="button"
+                className={`btn-sim ${activeScenario === 'WARNING_SMOKE_ZONE_102' ? 'is-active' : ''}`}
+                onClick={() => onStartScenario('WARNING_SMOKE_ZONE_102')}
+                data-testid="btn-sim-warning"
+              >
+                <Play size={14} />
+                <span>Simulate Warning: Zone 102 Smoke (535 PPM)</span>
+              </button>
+
+              <button
+                type="button"
                 className={`btn-sim ${activeScenario === 'FIRE_SPIKE_ZONE_101' ? 'is-active' : ''}`}
                 onClick={() => onStartScenario('FIRE_SPIKE_ZONE_101')}
                 data-testid="btn-sim-fire"
               >
                 <Play size={14} />
-                <span>Simulate Fire in Zone 101 (Temp 75&deg;C + Flame)</span>
+                <span>Simulate Critical: Zone 101 Fire (75&deg;C + Flame)</span>
               </button>
 
               <button
@@ -244,6 +254,14 @@ export const ControlConsole = ({
                 <span>Reset Simulation to Baseline</span>
               </button>
             </div>
+            {activeScenario && (
+              <div className="active-sim-banner" data-testid="active-sim-indicator">
+                <span className="active-sim-pulse" />
+                <span className="active-sim-text">
+                  Demonstration active: <strong>{activeScenario}</strong> {STAGE_A_SIMULATION_TAG}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Audit Log Panel */}
