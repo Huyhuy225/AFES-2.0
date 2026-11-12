@@ -24,6 +24,7 @@ jobs:
         env:
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          CHANGED_FILE_COUNT: ${{ github.event.pull_request.changed_files }}
           AUTH_VALUE: ${{ github.token }}
         shell: bash
         run: |
@@ -32,6 +33,12 @@ jobs:
           # pull_request_target loads this workflow from the protected target
           # branch. It deliberately does not check out or execute pull-request
           # code; only the GitHub API is used to list changed paths.
+          if (( CHANGED_FILE_COUNT > 3000 )); then
+            echo "Pull request changes ${CHANGED_FILE_COUNT} files, exceeding the GitHub API's complete-list limit." >&2
+            echo 'Split the pull request before it can pass the Tracker Ownership Gate.' >&2
+            exit 1
+          fi
+
           changed_files="$(python - <<'PY'
           import json
           import os

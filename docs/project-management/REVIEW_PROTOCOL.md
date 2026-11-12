@@ -21,6 +21,7 @@ Every Pull Request is reviewed before its owner decides whether to merge. The re
 - They must not include `WORK_TRACKER.md` in their implementation Pull Requests.
 - After review is accepted, `Huyhuy225` opens or updates a focused tracker Pull Request with the evidence links and accurate status.
 - An open Pull Request or passing CI is not `DONE`; the tracker is updated only after merge and applicable quality gates pass.
+- A Pull Request changing more than 3,000 files fails the tracker gate and must be split before review; this prevents incomplete API file lists from weakening the ownership check.
 
 ## Review evidence checklist
 
