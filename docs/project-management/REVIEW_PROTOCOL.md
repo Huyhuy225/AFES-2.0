@@ -11,7 +11,7 @@ Every Pull Request is reviewed before its owner decides whether to merge. The re
 3. The review worker records findings by severity: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, or `INFORMATIONAL`.
 4. The implementation worker addresses blocking findings on the same Pull Request and reruns the relevant checks.
 5. The review worker verifies the final diff, CI status, Issue linkage, scope, tests, secret hygiene and evidence claims.
-6. Only `Huyhuy225`, as repository owner, decides whether to merge after the review result is acceptable and branch protection requirements are met or an owner bypass is deliberately used.
+6. Only `Huyhuy225`, as repository owner, decides whether to merge after the review result is acceptable and branch protection requirements are met. Any administrator bypass is an exceptional, explicitly recorded owner action and depends on the target branch's current protection configuration.
 
 ## Work tracker ownership rule
 

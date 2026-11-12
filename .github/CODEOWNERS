@@ -7,8 +7,7 @@
 # - Võ Quang Huy (@Huyhuy225): CoreIOT integration, Application Backend, DevOps
 # - Ý (@gutjmosnin): Frontend & Presentation Layer
 #
-# Firmware and Local Gateway maintainer:
-# - Khánh (@tranhoangkhanh-hkt)
+# Firmware and Local Gateway assignment is pending collaborator write access.
 # ==============================================================================
 
 # Default fallback owner for all repository files
@@ -33,5 +32,6 @@
 /frontend/ @gutjmosnin
 
 # Embedded Firmware & Local Gateway
-/firmware/ @tranhoangkhanh-hkt
-/local-gateway/ @tranhoangkhanh-hkt
+# Khánh (@tranhoangkhanh-hkt) becomes owner after accepting a write invitation.
+/firmware/ @Huyhuy225
+/local-gateway/ @Huyhuy225
