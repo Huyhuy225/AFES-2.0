@@ -4,24 +4,24 @@ Statuses describe accepted evidence on active `develop`, not intent. `DONE (SIMU
 
 ## Active P1 path
 
-| Item | Active interpretation | Owner | Status | Dependency | Required acceptance evidence |
-|---|---|---|---|---|---|
-| Stage A | Deterministic telemetry simulator and schema checks | Khánh (`@tranhoangkhanh-hkt`, activation pending) | DONE (SIMULATION) | None | Merged `simulation/` source, tests, fixtures, and [guide](docs/testing/STAGE_A_TELEMETRY_SIMULATOR.md). |
-| T08 | Local Gateway on PC/Raspberry Pi | Khánh | NOT STARTED ([#7](https://github.com/Huyhuy225/AFES-2.0/issues/7)) | Stage A | Automated ingest/validation tests, broker test, buffering/replay record, CLI and health/status endpoint. |
-| Onboarding | Secure CoreIOT project setup | Huy (`@Huyhuy225`) | BLOCKED ([#3](https://github.com/Huyhuy225/AFES-2.0/issues/3)) | Authorized tenant/project access | Redacted setup record, credential-handling procedure, device/gateway mapping, successful secure connection. |
-| T11 | CoreIOT native device template and dashboard | Ý (`@gutjmosnin`) | NOT STARTED ([#33](https://github.com/Huyhuy225/AFES-2.0/issues/33)) | Onboarding, gateway test feed | Importable configuration, bound widgets, telemetry/history display, remote-control test, screenshots labelled by evidence mode. |
-| T12 | CoreIOT RuleChain smart features | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | Onboarding, T11 telemetry | Exported RuleChain, reviewed thresholds, deterministic trigger/no-trigger tests. |
-| T13 | CoreIOT alarms and notifications | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | T12 | Alarm create/clear/acknowledge record and redacted notification delivery evidence. |
-| T15 | Local Gateway/CoreIOT synchronization | Huy and Khánh | NOT STARTED ([#35](https://github.com/Huyhuy225/AFES-2.0/issues/35)) | T08, onboarding, T11–T13 | Reconnect, ordered replay, deduplication, status synchronization, and authorized command round-trip tests. |
-| Hardware foundation | Minimal ESP32-S3 PlatformIO C++ project | Khánh | BLOCKED by hardware access ([#36](https://github.com/Huyhuy225/AFES-2.0/issues/36)) | Board access | Reproducible build, physical flash/boot log, safe defaults, physical MQTT telemetry record. |
+| Item | Active interpretation | Owner | Status | Dependency | Required acceptance evidence | Task / notes |
+|---|---|---|---|---|---|---|
+| Stage A | Deterministic telemetry simulator and schema checks | Khánh (`@tranhoangkhanh-hkt`, activation pending) | DONE (SIMULATION) | None | Merged `simulation/` source, tests, fixtures, and [guide](docs/testing/STAGE_A_TELEMETRY_SIMULATOR.md). | P1-01 / [#6](https://github.com/Huyhuy225/AFES-2.0/issues/6) (simulation only; no physical ESP32 proof) |
+| T08 | Local Gateway on PC/Raspberry Pi | Khánh | NOT STARTED ([#7](https://github.com/Huyhuy225/AFES-2.0/issues/7)) | Stage A | Automated ingest/validation tests, broker test, buffering/replay record, CLI and health/status endpoint. | P1-02 / [#7](https://github.com/Huyhuy225/AFES-2.0/issues/7) (Local Gateway T08; no React/Spring backend) |
+| Onboarding | Secure CoreIOT project setup | Huy (`@Huyhuy225`) | BLOCKED ([#3](https://github.com/Huyhuy225/AFES-2.0/issues/3)) | Authorized tenant/project access | Redacted setup record, credential-handling procedure, device/gateway mapping, successful secure connection. | P1-03 / [#3](https://github.com/Huyhuy225/AFES-2.0/issues/3) (CoreIOT onboarding precondition; blocked on authorized tenant access, no secrets) |
+| T11 | CoreIOT native device template and dashboard | Ý (`@gutjmosnin`) | NOT STARTED ([#33](https://github.com/Huyhuy225/AFES-2.0/issues/33)) | Onboarding, gateway test feed | Importable configuration, bound widgets, telemetry/history display, remote-control test, screenshots labelled by evidence mode. | P1-04 / [#33](https://github.com/Huyhuy225/AFES-2.0/issues/33) (native CoreIOT dashboard target configuration, not completed) |
+| T12 | CoreIOT RuleChain smart features | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | Onboarding, T11 telemetry | Exported RuleChain, reviewed thresholds, deterministic trigger/no-trigger tests. | P1-05 / [#34](https://github.com/Huyhuy225/AFES-2.0/issues/34) (native CoreIOT RuleChain target configuration, not completed) |
+| T13 | CoreIOT alarms and notifications | Huy | NOT STARTED ([#34](https://github.com/Huyhuy225/AFES-2.0/issues/34)) | T12 | Alarm create/clear/acknowledge record and redacted notification delivery evidence. | P1-05 / [#34](https://github.com/Huyhuy225/AFES-2.0/issues/34) (native CoreIOT alarms/notifications target configuration, not completed) |
+| T15 | Local Gateway/CoreIOT synchronization | Huy and Khánh | NOT STARTED ([#35](https://github.com/Huyhuy225/AFES-2.0/issues/35)) | T08, onboarding, T11–T13 | Reconnect, ordered replay, deduplication, status synchronization, and authorized command round-trip tests. | P1-06 / [#35](https://github.com/Huyhuy225/AFES-2.0/issues/35) (waits on Gateway plus CoreIOT tasks) |
+| Hardware foundation | Minimal ESP32-S3 PlatformIO C++ project | Khánh | BLOCKED by hardware access ([#36](https://github.com/Huyhuy225/AFES-2.0/issues/36)) | Board access | Reproducible build, physical flash/boot log, safe defaults, physical MQTT telemetry record. | P1-07 / [#36](https://github.com/Huyhuy225/AFES-2.0/issues/36) (minimal firmware foundation; waits on physical hardware, PlatformIO foundation does not prove live sensor behavior or scored items) |
 
 ## Not currently claimed
 
-| Items | Status | Rule |
-|---|---|---|
-| T10 | NOT CLAIMED | Only a minimal gateway CLI and health/status endpoint are planned for operations. This is not presented as a scored monitoring/control interface. |
-| T01–T07, T09, T14 | DEFERRED | Backlog until explicitly approved. No `IMPLEMENTED` label without task-specific source and evidence. T01 specifically requires Tasmota; generic I2C is insufficient. |
-| N01–N07 | DEFERRED | Bonus backlog; none is active scope or an active score claim. |
+| Items | Status | Rule | Task / notes |
+|---|---|---|---|
+| T10 | NOT CLAIMED | Only a minimal gateway CLI and health/status endpoint are planned for operations. This is not presented as a scored monitoring/control interface. | Deferred / not current scope (minimal operations CLI and health endpoint only) |
+| T01–T07, T09, T14 | DEFERRED | Backlog until explicitly approved. No `IMPLEMENTED` label without task-specific source and evidence. T01 specifically requires Tasmota; generic I2C is insufficient. | Deferred / not current scope; backlog until explicitly approved and supported by item-specific evidence |
+| N01–N07 | DEFERRED | Bonus backlog; none is active scope or an active score claim. | Deferred / not current scope; bonus backlog, no active score claim |
 
 ## Evidence rules
 
