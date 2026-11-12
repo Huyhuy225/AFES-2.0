@@ -1,19 +1,8 @@
-# ==============================================================================
-# AFES 2.0 - Code Ownership Configuration
-# ==============================================================================
-# This file defines code review ownership across repository subsystems.
-#
-# Maintainers:
-# - Võ Quang Huy (@Huyhuy225): CoreIOT integration, Application Backend, DevOps
-# - Ý (@gutjmosnin): Frontend & Presentation Layer
-#
-# Firmware and Local Gateway assignment is pending collaborator write access.
-# ==============================================================================
+# AFES 2.0 code ownership
 
-# Default fallback owner for all repository files
+# Huy owns governance and remains the fallback reviewer.
 * @Huyhuy225
 
-# Repository Governance & Documentation
 /.github/ @Huyhuy225
 /docs/ @Huyhuy225
 /CONTRIBUTING.md @Huyhuy225
@@ -22,16 +11,9 @@
 /.gitignore @Huyhuy225
 /WORK_TRACKER.md @Huyhuy225
 
-# Domain Ownership Assignments
-# ------------------------------------------------------------------------------
-# CoreIOT Platform Integration & Application Backend
+# Active IoT-first domains. Khánh's repository activation is still pending,
+# so Huy remains the enforceable reviewer while assignment documents name Khánh.
 /coreiot/ @Huyhuy225
-/backend/ @Huyhuy225
-
-# Frontend & Presentation Layer
-/frontend/ @gutjmosnin
-
-# Embedded Firmware & Local Gateway
-# Khánh (@tranhoangkhanh-hkt) becomes owner after accepting a write invitation.
 /firmware/ @Huyhuy225
 /local-gateway/ @Huyhuy225
+/simulation/ @Huyhuy225

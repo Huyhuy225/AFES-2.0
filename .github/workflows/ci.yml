@@ -151,12 +151,11 @@ jobs:
               sys.exit(1)
           print('All required governance baseline files are present.')
 
-      - name: Application Test Notice
+      - name: Active scope test notice
         run: |
           echo "=============================================================================="
-          echo "APPLICATION TEST STATUS NOTICE:"
-          echo "This repository is currently in the initial architecture and governance baseline."
-          echo "No application source modules (backend, firmware, gateway, frontend) exist yet."
-          echo "Per repository governance, application test suites are intentionally not run,"
-          echo "and no absent application tests are claimed to pass."
+          echo "ACTIVE SCOPE TEST STATUS:"
+          echo "Stage A simulator source and evidence are preserved as simulated work."
+          echo "Gateway, firmware, and CoreIOT-specific test suites must be added with their modules."
+          echo "This hygiene job makes no physical-hardware or absent-module test claim."
           echo "=============================================================================="

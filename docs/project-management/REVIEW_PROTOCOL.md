@@ -1,37 +1,20 @@
-# AFES 2.0 Code Review Worker Protocol
-
-## Purpose
-
-Every Pull Request is reviewed before its owner decides whether to merge. The review worker is an independent quality gate: it inspects the actual diff, relevant tests, CI evidence, architecture and security boundaries. It does not replace the repository owner's decision or grant itself merge authority.
+# Review protocol
 
 ## Required review flow
 
-1. A contributor or implementation worker opens one Pull Request for one linked GitHub Issue.
-2. The coordinator assigns a dedicated Code Review Worker before requesting a merge decision.
-3. The review worker records findings by severity: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, or `INFORMATIONAL`.
-4. The implementation worker addresses blocking findings on the same Pull Request and reruns the relevant checks.
-5. The review worker verifies the final diff, CI status, Issue linkage, scope, tests, secret hygiene and evidence claims.
-6. Only `Huyhuy225`, as repository owner, decides whether to merge after the review result is acceptable and branch protection requirements are met. Any administrator bypass is an exceptional, explicitly recorded owner action and depends on the target branch's current protection configuration.
+1. Confirm the change belongs to the [IoT-first scope](IOT_FIRST_SCOPE.md) and its issue.
+2. Verify ownership, dependencies, and status against [WORK_TRACKER.md](../../WORK_TRACKER.md).
+3. Review source/configuration and run the relevant [quality gate](QUALITY_GATE.md).
+4. Check that each artifact is labelled `SIMULATION` or `PHYSICAL HARDWARE`.
+5. Check links, secret hygiene, failure handling, and rollback notes.
+6. Reject unsupported completion or score claims.
 
-## Work tracker ownership rule
+## Scope-specific checks
 
-`WORK_TRACKER.md` is the canonical execution record. The `Tracker Ownership Gate` verifies that a Pull Request changing this file was opened by `Huyhuy225`.
+- T08: schema validation, bounded buffering, replay, CLI/health status, command safety.
+- T11: native CoreIOT configuration and evidence owned by Ý.
+- T12/T13: deterministic rule branches, alarm lifecycle, redacted notifications.
+- T15: reconnect, deduplication, ordered replay, state/command correlation.
+- Firmware: physical evidence is mandatory for physical claims; generic I2C is not T01 Tasmota.
 
-- Other team members and workers must report status, evidence and blockers in their assigned Issue or Pull Request.
-- They must not include `WORK_TRACKER.md` in their implementation Pull Requests.
-- After review is accepted, `Huyhuy225` opens or updates a focused tracker Pull Request with the evidence links and accurate status.
-- An open Pull Request or passing CI is not `DONE`; the tracker is updated only after merge and applicable quality gates pass.
-- A Pull Request changing more than 3,000 files fails the tracker gate and must be split before review; this prevents incomplete API file lists from weakening the ownership check.
-
-## Review evidence checklist
-
-- Linked Issue, correct target branch and bounded scope.
-- Actual source/diff review, not README-only claims.
-- Relevant automated tests, build/lint output and CI result.
-- No secrets, credentials, unsafe defaults or unauthorized dependency changes.
-- Simulation, deployment and physical-hardware evidence labelled accurately.
-- Documentation and contract compatibility where the change affects them.
-
-## Limits
-
-The review worker can identify risk and recommend changes, but it cannot certify untested hardware, validate private CoreIOT configuration, or approve a merge on behalf of the owner.
+Only Huy may submit root tracker changes. A reviewer may verify private CoreIOT or hardware evidence when granted access, but must not claim to have observed evidence they did not actually inspect.
