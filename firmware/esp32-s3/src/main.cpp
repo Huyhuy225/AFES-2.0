@@ -26,6 +26,9 @@ char g_topic_cmd_res[128];
 
 unsigned long g_last_telemetry_ms = 0;
 unsigned long g_last_safety_ms = 0;
+unsigned long g_last_mqtt_attempt_ms = 0;
+unsigned long g_manual_override_until_ms = 0;
+constexpr unsigned long MQTT_RECONNECT_INTERVAL_MS = 5000UL;
 
 bool g_buzzer_active = false;
 bool g_alarm_led_active = false;
@@ -79,6 +82,13 @@ void runLocalSafetyLoop() {
     const float smoke_ppm = (smoke_adc / 4095.0f) * 1000.0f;
 
     // Local safety behavior MUST NEVER depend on Wi-Fi/MQTT/WAN availability.
+    if (strcmp(g_override_mode, "MANUAL_OVERRIDE") == 0 &&
+        g_manual_override_until_ms != 0 &&
+        static_cast<long>(millis() - g_manual_override_until_ms) >= 0) {
+        g_override_mode = "AUTO";
+        g_manual_override_until_ms = 0;
+    }
+
     if (strcmp(g_override_mode, "AUTO") == 0) {
         const bool critical = flame_detected || (smoke_ppm >= SMOKE_CRITICAL_PPM);
         const bool warning = !critical && (smoke_ppm >= SMOKE_WARNING_PPM);
@@ -104,10 +114,15 @@ void handleCommand(char *topic, byte *payload, unsigned int length) {
     if (strcmp(action, "PUMP_ON") == 0) {
         g_override_mode = "MANUAL_OVERRIDE";
         g_pump_relay_active = true;
+        const unsigned long duration_ms = doc["parameters"]["duration_ms"] | 0UL;
+        g_manual_override_until_ms = (duration_ms > 0) ? (millis() + duration_ms) : 0;
     } else if (strcmp(action, "PUMP_OFF") == 0) {
         g_pump_relay_active = false;
+        g_override_mode = "AUTO";
+        g_manual_override_until_ms = 0;
     } else if (strcmp(action, "EMERGENCY_RELEASE") == 0 || strcmp(action, "RESET_ALERTS") == 0) {
         g_override_mode = "AUTO";
+        g_manual_override_until_ms = 0;
         g_buzzer_active = false;
         g_alarm_led_active = false;
         g_pump_relay_active = false;
@@ -135,6 +150,11 @@ void ensureMqttConnected() {
     if (WiFi.status() != WL_CONNECTED || g_mqtt_client.connected()) {
         return;
     }
+    const unsigned long now = millis();
+    if (g_last_mqtt_attempt_ms != 0 && (now - g_last_mqtt_attempt_ms) < MQTT_RECONNECT_INTERVAL_MS) {
+        return;
+    }
+    g_last_mqtt_attempt_ms = now;
     if (g_mqtt_client.connect(
             AFES_DEVICE_ID,
             MQTT_USERNAME,

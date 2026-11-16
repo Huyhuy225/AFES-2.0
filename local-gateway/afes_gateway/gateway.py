@@ -163,7 +163,12 @@ class LocalGateway:
         tenant = tenant_id or self.config.tenant_id
         device_id = command["target_device_id"]
         topic = f"afes/v2/{tenant}/devices/{device_id}/command/req"
-        self.upstream.publish(topic, command, qos=1)
+        try:
+            self.upstream.publish(topic, command, qos=1)
+        except Exception as exc:  # noqa: BLE001
+            self.upstream_connected = False
+            self.metrics["commands_rejected"] += 1
+            return CommandCheckResult(False, f"UPSTREAM_ERROR: {type(exc).__name__}")
         self.metrics["commands_routed"] += 1
         return check
 

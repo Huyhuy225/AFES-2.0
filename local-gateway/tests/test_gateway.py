@@ -171,6 +171,19 @@ class LocalGatewayTests(unittest.TestCase):
         self.assertIn("temperature", mapped["values"])
         self.assertIn("smoke_ppm", mapped["values"])
 
+    def test_route_command_handles_upstream_publish_failure_safely(self) -> None:
+        class FailingSink:
+            def publish(self, topic: str, payload: dict[str, Any], qos: int = 1) -> None:
+                del topic, payload, qos
+                raise ConnectionError("broker down")
+
+        gw = LocalGateway(self.config, FailingSink())
+        res = gw.route_command(_sample_command())
+        self.assertFalse(res.allowed)
+        self.assertEqual(res.reason, "UPSTREAM_ERROR: ConnectionError")
+        self.assertFalse(gw.upstream_connected)
+        self.assertEqual(gw.metrics["commands_rejected"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()
