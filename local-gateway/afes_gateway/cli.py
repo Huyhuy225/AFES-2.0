@@ -52,8 +52,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "push-coreiot":
         sink = CoreIOTHttpSink(
-            base_url=config.coreiot_base_url,
-            token=config.coreiot_token,
+            config.coreiot_base_url,
+            config.coreiot_token,
             timeout_ms=config.coreiot_timeout_ms,
         )
         gateway = LocalGateway(config=config, upstream=sink)

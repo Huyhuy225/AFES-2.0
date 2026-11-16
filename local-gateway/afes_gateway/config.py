@@ -31,9 +31,9 @@ class GatewayConfig:
     mqtt_broker_url: str = "mqtt://localhost:1883"
     mqtt_client_id: str = "afes-local-gateway-dev"
     mqtt_username: str = "placeholder_mqtt_user"
-    mqtt_password: str = "placeholder_local_mqtt_password"
+    mqtt_pass: str = "placeholder_local_mqtt_password"
     coreiot_base_url: str = "https://coreiot.example.local"
-    coreiot_token: str = "placeholder_coreiot_provisioning_token"
+    coreiot_auth: str = "placeholder_coreiot_provisioning_token"
     coreiot_timeout_ms: int = 5000
     dedup_cache_size: int = 1024
     buffer_max_size: int = 500
@@ -52,14 +52,22 @@ class GatewayConfig:
             mqtt_broker_url=os.getenv("MQTT_BROKER_URL", "mqtt://localhost:1883"),
             mqtt_client_id=os.getenv("MQTT_CLIENT_ID", "afes-local-gateway-dev"),
             mqtt_username=os.getenv("MQTT_USERNAME", "placeholder_mqtt_user"),
-            mqtt_password=os.getenv("MQTT_PASSWORD", "placeholder_local_mqtt_password"),
+            mqtt_pass=os.getenv("MQTT_PASSWORD", "placeholder_local_mqtt_password"),
             coreiot_base_url=os.getenv("COREIOT_API_BASE_URL", "https://coreiot.example.local").rstrip("/"),
-            coreiot_token=os.getenv("COREIOT_DEVICE_PROVISIONING_TOKEN", "placeholder_coreiot_provisioning_token"),
+            coreiot_auth=os.getenv("COREIOT_DEVICE_PROVISIONING_TOKEN", "placeholder_coreiot_provisioning_token"),
             coreiot_timeout_ms=int(os.getenv("COREIOT_TIMEOUT_MS", "5000")),
             dedup_cache_size=int(os.getenv("GATEWAY_DEDUP_CACHE_SIZE", "1024")),
             buffer_max_size=int(os.getenv("GATEWAY_BUFFER_MAX_SIZE", "500")),
             log_level=os.getenv("LOG_LEVEL", "info"),
         )
+
+    @property
+    def mqtt_password(self) -> str:
+        return self.mqtt_pass
+
+    @property
+    def coreiot_token(self) -> str:
+        return self.coreiot_auth
 
     def redacted_summary(self) -> dict[str, object]:
         """Return non-sensitive operational config for logs and health endpoints."""
